@@ -19,7 +19,6 @@ export class TheaterTableComponent extends TableBaseComponent implements OnInit 
     this.title = 'Theaters';
     this.columns = ['name', 'status'];
     this.theaters = this.route.snapshot.data['theaters'];
-    //this.theaters.sort((a, b) => { return (a.status === b.status) ? 0 : a.status ? -1 : 1 })
     this.theaters.sort(this.sortBy('-status', 'name'));
     this.data = new MatTableDataSource(this.theaters);
     this.data.paginator = this.paginator;
