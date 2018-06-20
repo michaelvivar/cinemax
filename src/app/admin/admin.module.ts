@@ -28,6 +28,7 @@ import { TheaterResolver, TheatersResolver, TheaterWithCinemasResolver, ActiveTh
 import { ConfirmExitGuard } from '../guards/confirm-exit.guard';
 
 import { MatDialogModule, MatCardModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatListModule, MatChipsModule, MatGridListModule, MatProgressBarModule, MatProgressSpinnerModule, MatCheckboxModule, MatRadioModule } from '@angular/material';
+import { ScheduleTableComponent } from './schedule/schedule-table/schedule-table.component';
 const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule,
                   MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule,
                 MatDividerModule, MatCardModule, MatListModule, MatChipsModule, MatGridListModule,
@@ -61,7 +62,7 @@ const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButto
     ]),
     ...materials
   ],
-  declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent],
+  declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent, ScheduleTableComponent],
   providers: []
 })
 export class AdminModule {}
