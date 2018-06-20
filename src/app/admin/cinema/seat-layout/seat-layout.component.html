@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="text-center"><mat-spinner diameter="30"></mat-spinner></div>
+<br/>
+<div *ngIf="!loading">
+  <button type="button" class="btn btn-secondary btn-lg btn-block btn-sm">SCREEN</button>
+</div>
+<br/>
+<div class="seat-layout">
+  <ng-container *ngIf="seats$ | async; let seats">
+    <ng-container *ngFor="let row of seats">
+      <div class="text-center">
+        <ng-container *ngFor="let seat of row">
+          <mat-checkbox [checked]="seat.status" color="primary" (change)="toggle(seat)"></mat-checkbox>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

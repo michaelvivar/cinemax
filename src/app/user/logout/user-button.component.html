@@ -1,0 +1,10 @@
+<ng-container *ngIf="user$ | async; let user else loginButton">
+    <button mat-button [matMenuTriggerFor]="menu" yPosition="below" xPosition="after">{{user}}</button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button (click)="logout()" mat-menu-item>Log out</button>
+    </mat-menu>
+</ng-container>
+
+<ng-template #loginButton>
+    <button *ngIf="btnDisplay" (click)="login()" mat-button>Log in</button>
+</ng-template>

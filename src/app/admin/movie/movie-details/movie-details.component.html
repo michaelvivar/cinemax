@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-sm-6">
+        <section class="mat-typography">
+            <h1>{{ title }}</h1>
+        </section>
+    </div>
+    <div class="col-sm-6 text-right">
+        <div class="action-buttons">
+            <button [routerLink]="['/admin/movie/edit', movie.id]" mat-raised-button color="primary">Edit</button>
+            <button (click)="openFileWindow()" mat-raised-button color="primary">Upload Image</button>
+            <button (click)="delete()" mat-raised-button color="warn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<input type="file" #btn style="visibility: hidden;" (change)="uploadImage($event)"  /> 
+
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-sm-4">
+                <ng-container *ngIf="movie.image">
+                    <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" />
+                </ng-container>
+            </div>
+            <div class="col-sm-8">
+                <mat-list>
+                    <mat-list-item>Running Time: <mat-chip-list><mat-chip>{{ movie.runtime }}</mat-chip></mat-chip-list></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>MTRCB Rating: <mat-chip-list><mat-chip>{{ movie.grade }}</mat-chip></mat-chip-list></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>Release Date: <mat-chip-list><mat-chip>{{ movie.date | date }}</mat-chip></mat-chip-list></mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

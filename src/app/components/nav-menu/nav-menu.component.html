@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <div class="button-row">
+      <button mat-button color="" routerLinkActive="active" [routerLink]="['/']">Home</button>
+      <button mat-button [matMenuTriggerFor]="admin" yPosition="below" xPosition="after">Admin</button>
+      <mat-menu #admin="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item [routerLink]="['/admin']">Dashboard</button>
+        <button mat-menu-item [routerLink]="['/admin/movies']">Movies</button>
+        <button mat-menu-item [routerLink]="['/admin/theaters']">Theaters</button>
+      </mat-menu>
+  </div>
+  <div class="flex-spacer"></div>
+  <user-button></user-button>
+</mat-toolbar>
+
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Cinemax</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/']">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/movies']" routerLinkActive="active">Movies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/theaters']" routerLinkActive="active">Theaters</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin']" routerLinkActive="active">Admin</a>
+      </li>
+    </ul>
+  </div>
+</nav> -->

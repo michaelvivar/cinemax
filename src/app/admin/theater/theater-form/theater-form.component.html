@@ -1,0 +1,24 @@
+<section class="mat-typography">
+    <h1>{{ title }}</h1>
+</section>
+
+<mat-card>
+  <mat-card-content>
+      <mat-form-field class="control-display-block">
+          <input type="text" matInput placeholder="Name" [formControl]="form.controls['name']" />
+      </mat-form-field>
+      
+      <mat-form-field>
+          <mat-select placeholder="Status" [formControl]="form.controls['status']">
+            <mat-option [value]="true">Active</mat-option>
+            <mat-option [value]="false">Inactive</mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <p class="action-buttons">
+          <button mat-raised-button color="default" (click)="cancel()">Cancel</button>
+          <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || form.untouched">Save</button>
+      </p>
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,52 @@
+<section class="mat-typography">
+    <h1>{{ title }}</h1>
+</section>
+
+<mat-card>
+  <mat-card-content>
+      <mat-form-field class="control-display-block">
+        <input matInput type="text" [formControl]="form.controls['title']" placeholder="Title" />
+        <mat-error *ngIf="form.controls['title'].hasError('required')">
+          This field is required!
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Release date" [formControl]="form.controls['date']">
+        <mat-error *ngIf="form.controls['date'].hasError('required')">
+          This field is required!
+        </mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      
+      <div>
+          <mat-form-field>
+              <input matInput type="number" [formControl]="form.controls['runtime']" placeholder="Running time" />
+              <mat-hint align="start">Total running time in minutes</mat-hint>
+          </mat-form-field>
+      </div>
+      
+      <mat-form-field>
+        <mat-select placeholder="Select Grade" [formControl]="form.controls['grade']">
+          <mat-option *ngFor="let grade of ['G', 'PG', 'R-13', 'R-18']" [value]="grade">
+            {{ grade }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div>
+          <mat-form-field>
+              <mat-select placeholder="Status" [formControl]="form.controls['status']">
+                <mat-option [value]="true">Active</mat-option>
+                <mat-option [value]="false">Inactive</mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+      <p class="action-buttons">
+        <button mat-raised-button color="default" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || form.untouched">Save</button>
+      </p>
+  </mat-card-content>
+</mat-card>

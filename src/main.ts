@@ -8,5 +8,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+platformBrowserDynamic().bootstrapModule(AppModule).then(({ injector }) => {
+  //customElements.define('[selector]', createCustomElement(Component, { injector }));
+})
   .catch(err => console.log(err));

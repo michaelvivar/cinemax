@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-content>
+
+    <mat-form-field class="control-display-block">
+      <mat-select [formControl]="form.controls['theater']" placeholder="Theater">
+        <mat-option *ngFor="let theater of theaters" [value]="theater.id">{{ theater.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="control-display-block">
+      <mat-select [formControl]="form.controls['cinema']" placeholder="Cinema">
+        <mat-option *ngFor="let cinema of cinemas" [value]="cinema.id">{{ cinema.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Date" [formControl]="form.controls['date']">
+      <mat-error *ngIf="form.controls['date'].hasError('required')">
+        This field is required!
+      </mat-error>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="text" matInput [formControl]="form.controls['start']" placeholder="Time Start" />
+      <mat-error *ngIf="form.controls['start'].hasError('pattern')">
+        Invalid format!
+      </mat-error>
+      <mat-hint>Format: HH:MM AM/PM</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="text" matInput [formControl]="form.controls['end']" placeholder="Time End"/>
+      <mat-error *ngIf="form.controls['end'].hasError('pattern')">
+        Invalid format!
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+        <mat-form-field>
+          <span matPrefix>PHP &nbsp;</span>
+          <input type="number" matInput [formControl]="form.controls['price']" placeholder="Price" />
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="form.untouched || form.invalid">Save</button>
+
+  </mat-card-content>
+</mat-card>

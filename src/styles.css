@@ -1,1 +1,82 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+body {
+    margin: 0;
+}
+
+table {
+    width: 100%;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.page-content {
+    margin: 0 auto;
+    width: 800px;
+    padding: 30px 0;
+}
+
+.control-display-block {
+    width: 100%;
+}
+
+.mat-hint {
+    font-size: 11px;
+}
+
+.mat-form-field {
+    padding: 10px 0;
+}
+
+.action-buttons button, .action-buttons a {
+    margin-right: 10px;
+}
+
+.text-right .action-buttons button, .text-right .action-buttons a {
+    margin-right: 0px;
+    margin-left: 10px;
+}
+
+.seat-layout .mat-standard-chip {
+    margin: 3px 2px !important;
+}
+
+.seat-layout .mat-standard-chip {
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.seat-layout .mat-icon {
+    height: 18px;
+    width: 18px;
+}
+
+.seat-layout .material-icons {
+    font-size: 18px;
+}
+.seat-layout {
+    width: 100%;
+}
+
+.seat-layout .mat-checkbox-inner-container-no-side-margin {
+    margin: 0 2px;
+}
+
+.seat-layout .mat-checkbox-checkmark {
+    display: none;
+}
+
+.flex-spacer {
+    flex: 1 1 auto;
+}

@@ -1,0 +1,22 @@
+<form>
+  <mat-form-field class="control-display-block">
+    <input type="text" placeholder="Email" [formControl]="loginForm.controls['username']" matInput />
+  </mat-form-field>
+  <mat-form-field class="control-display-block">
+    <input type="password" placeholder="Password" [formControl]="loginForm.controls['password']" matInput />
+  </mat-form-field>
+  <div>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="submitted">Log In</button>
+  </div>
+</form>
+<p class="action-buttons">
+  <button mat-raised-button color="primary" (click)="signInWithTwitter()">
+    Login with Twitter
+  </button>
+  <button mat-raised-button color="primary" (click)="signInWithFacebook()">
+    Login with Facebook
+  </button>
+  <button mat-raised-button color="primary" (click)="signInWithGoogle()">
+    Login with Google
+  </button>
+</p>
