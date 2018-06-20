@@ -28,3 +28,15 @@ export class MoviesResolver implements Resolve<Movie[]> {
       return this.service.allAsync();
   }
 }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveMoviesResolver implements Resolve<Movie[]> {
+
+  constructor(private service: MovieService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      return this.service.allActiveAsync();
+  }
+}

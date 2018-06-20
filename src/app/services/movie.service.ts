@@ -33,6 +33,19 @@ export class MovieService {
     return movies;
   }
 
+  async allActiveAsync() {
+    let movies: Movie[] = [];
+    await this.firestore.collection('movies').ref.where('status', '==', true).get().then(data => {
+      movies = data.docs.map(doc => {
+        const movie = doc.data() as Movie;
+        movie.date = new Date(movie.date['seconds'] * 1000);
+        movie.id = doc.id;
+        return movie;
+      });
+    })
+    return movies;
+  }
+
   add(movie: Movie) {
     return this.firestore.collection('movies').add(movie);
   }

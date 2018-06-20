@@ -23,7 +23,7 @@ import { ScheduleFormComponent } from './schedule/schedule-form/schedule-form.co
 import { AuthGuard } from '../guards/auth.guard';
 
 import { CinemaResolver } from '../services/resolver/cinema.resolver';
-import { MoviesResolver, MovieResolver } from '../services/resolver/movie.resolver';
+import { MoviesResolver, MovieResolver, ActiveMoviesResolver } from '../services/resolver/movie.resolver';
 import { TheaterResolver, TheatersResolver, TheaterWithCinemasResolver, ActiveTheatersResolver } from '../services/resolver/theater.resolver';
 import { ConfirmExitGuard } from '../guards/confirm-exit.guard';
 
@@ -38,7 +38,7 @@ const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButto
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule,
     RouterModule.forChild([
-      { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+      { path: '', component: DashboardComponent, resolve: { movies: ActiveMoviesResolver }, canActivate: [AuthGuard] },
       { path: 'schedule', children: [
         { path: 'add', component: ScheduleFormComponent, resolve: { theaters: ActiveTheatersResolver }, canActivate: [AuthGuard] }
       ]},
