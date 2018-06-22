@@ -2,7 +2,11 @@
     <ng-container *ngFor="let movie of movies">
         <div class="col-sm-4">
           <div>{{ movie.title }}</div>
-          <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" />
+          <a [routerLink]="['/admin/schedule/movie', movie.id]">
+            <div class="movie-poster-md">
+                <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" width="240" />
+            </div>
+          </a>
         </div>
       </ng-container>
 </div>
