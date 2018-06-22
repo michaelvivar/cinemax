@@ -1,15 +1,17 @@
 <mat-toolbar color="primary">
   <div class="button-row">
       <button mat-button color="" routerLinkActive="active" [routerLink]="['/']">Home</button>
-      <button mat-button [matMenuTriggerFor]="admin" yPosition="below" xPosition="after">Admin</button>
-      <mat-menu #admin="matMenu" [overlapTrigger]="false">
-        <button mat-menu-item [routerLink]="['/admin']">Dashboard</button>
-        <button mat-menu-item [routerLink]="['/admin/movies']">Movies</button>
-        <button mat-menu-item [routerLink]="['/admin/theaters']">Theaters</button>
-      </mat-menu>
+      <button mat-button color="" routerLinkActive="active" [routerLink]="['/theaters']">Theaters</button>
   </div>
   <div class="flex-spacer"></div>
   <user-button></user-button>
+  <button mat-button [matMenuTriggerFor]="admin" yPosition="below" xPosition="after">Admin</button>
+  <mat-menu #admin="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item [routerLink]="['/admin']">Dashboard</button>
+    <button mat-menu-item [routerLink]="['/admin/movies']">Movies</button>
+    <button mat-menu-item [routerLink]="['/admin/theaters']">Theaters</button>
+    <button mat-menu-item [routerLink]="['/admin/schedules']">Schedules</button>
+  </mat-menu>
 </mat-toolbar>
 
 <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
