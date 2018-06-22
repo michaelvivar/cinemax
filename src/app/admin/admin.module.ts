@@ -24,11 +24,14 @@ import { AuthGuard } from '../guards/auth.guard';
 
 import { CinemaResolver } from '../services/resolver/cinema.resolver';
 import { MoviesResolver, MovieResolver, ActiveMoviesResolver } from '../services/resolver/movie.resolver';
-import { TheaterResolver, TheatersResolver, TheaterWithCinemasResolver, ActiveTheatersResolver } from '../services/resolver/theater.resolver';
+import { TheaterResolver, TheatersResolver, TheaterWithCinemasResolver, ActiveTheatersResolver, TheatersWithCinemasResolver, ActiveTheatersWithActiveCinemasResolver } from '../services/resolver/theater.resolver';
 import { ConfirmExitGuard } from '../guards/confirm-exit.guard';
 
 import { MatDialogModule, MatCardModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatListModule, MatChipsModule, MatGridListModule, MatProgressBarModule, MatProgressSpinnerModule, MatCheckboxModule, MatRadioModule } from '@angular/material';
 import { ScheduleTableComponent } from './schedule/schedule-table/schedule-table.component';
+import { SchedulesComponent } from './schedule/schedules/schedules.component';
+import { SharedModule } from '../shared/shared.module';
+
 const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule,
                   MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule,
                 MatDividerModule, MatCardModule, MatListModule, MatChipsModule, MatGridListModule,
@@ -36,11 +39,14 @@ const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButto
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule,
+    CommonModule, FormsModule, ReactiveFormsModule, SharedModule,
     RouterModule.forChild([
       { path: '', component: DashboardComponent, resolve: { movies: ActiveMoviesResolver }, canActivate: [AuthGuard] },
+      { path: 'schedules', component: SchedulesComponent, resolve: {
+        theaters: TheatersWithCinemasResolver
+      }},
       { path: 'schedule', children: [
-        { path: 'add', component: ScheduleFormComponent, resolve: { theaters: ActiveTheatersResolver }, canActivate: [AuthGuard] }
+        { path: 'movie/:id', component: ScheduleFormComponent, resolve: { theaters: ActiveTheatersWithActiveCinemasResolver, movie: MovieResolver }, canActivate: [AuthGuard] }
       ]},
       { path: 'movies', component: MovieTableComponent, resolve: { movies: MoviesResolver}, canActivate: [AuthGuard] },
       { path: 'movie', children: [
@@ -62,7 +68,6 @@ const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButto
     ]),
     ...materials
   ],
-  declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent, ScheduleTableComponent],
-  providers: []
+  declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent, ScheduleTableComponent, SchedulesComponent],
 })
 export class AdminModule {}
