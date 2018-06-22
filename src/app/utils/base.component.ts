@@ -6,10 +6,12 @@ import { MatDialog, MatTableDataSource, MatPaginator } from "@angular/material";
 import { ConfirmDialog } from "../components/confirm-dialog/confirm-dialog.component";
 import { AlertDialog } from "../components/alert-dialog/alert-dialog.component";
 import { ViewChild } from "@angular/core";
+import { SelectionModel } from "@angular/cdk/collections";
+import { SafeHtml, DomSanitizer } from "@angular/platform-browser";
 
 export abstract class BaseComponent {
 
-    constructor(public dialog?: MatDialog) {}
+    constructor(public dialog?: MatDialog, protected domSanitizer?: DomSanitizer) {}
 
     protected title: string;
     private subscriptions: Subscription[] = [];
@@ -23,25 +25,37 @@ export abstract class BaseComponent {
         console.log('Destroyed!', this.subscriptions.length);
     }
 
-    alert(message: string) {
+    alert(message: string, title?: string) {
+        if (this.domSanitizer) {
+            message = <any>this.safeHtml(message);
+        }
         if (this.dialog) {
             let dialogRef = this.dialog.open(AlertDialog, {
-                width: '250px',
-                data: message
+                width: '300px',
+                data: { message, title }
             });
         
             return dialogRef.afterClosed().toPromise();
         }
     }
 
-    confirm(message: string): Promise<boolean> {
+    confirm(message: string, title?: string): Promise<boolean> {
+        if (this.domSanitizer) {
+            message = <any>this.safeHtml(message);
+        }
         if (this.dialog) {
             let dialogRef = this.dialog.open(ConfirmDialog, {
-                width: '250px',
-                data: message
+                width: '400px',
+                data: { message, title }
             });
         
             return dialogRef.afterClosed().toPromise();
+        }
+    }
+
+    safeHtml(content: string): SafeHtml {
+        if (this.domSanitizer) {
+            return this.domSanitizer.bypassSecurityTrustHtml(content);
         }
     }
 
@@ -54,8 +68,8 @@ export abstract class BaseComponent {
 
 export abstract class FormBaseComponent extends BaseComponent {
 
-    constructor(formbuilder: FormBuilder, protected store: Store, dialog?: MatDialog) {
-        super(dialog);
+    constructor(formbuilder: FormBuilder, protected store: Store, dialog?: MatDialog, domSanitizer?: DomSanitizer) {
+        super(dialog, domSanitizer);
         this.form = formbuilder.group([]);
     }
 
@@ -78,7 +92,29 @@ export abstract class FormBaseComponent extends BaseComponent {
 }
 
 export abstract class TableBaseComponent extends BaseComponent {
+
+    constructor(dialog?: MatDialog, domSanitizer?: DomSanitizer) {
+        super(dialog, domSanitizer);
+    }
+
     data = new MatTableDataSource([]);
     columns: string[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    selection = new SelectionModel<any>(true, []);
+
+    isAllSelected() {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.data.data.length;
+      return numSelected === numRows;
+    }
+  
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+      this.isAllSelected() ?
+          this.selection.clear() :
+          this.data.data.forEach(row => this.selection.select(row.id));
+    }
+
+    abstract filter(data: any, filter: string);
 }
