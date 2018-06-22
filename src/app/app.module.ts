@@ -31,6 +31,10 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { UserModule } from './user/user.module';
 import { AuthGuard } from './guards/auth.guard';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { TheaterState } from './ngxs/states/theater.state';
+import { CinemaState } from './ngxs/states/cinema.state';
+import { MovieState } from './ngxs/states/movie.state';
+import { MovieModule } from './modules/movie/movie.module';
 
 @NgModule({
   declarations: [
@@ -47,9 +51,10 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+      { path: 'buy', loadChildren: './modules/buy/buy.module#BuyModule' },
       ...routes
     ]),
-    NgxsModule.forRoot([AppState, SeatsState]),
+    NgxsModule.forRoot([AppState, TheaterState, CinemaState, MovieState, SeatsState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     BrowserAnimationsModule,
@@ -58,7 +63,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    UserModule
+    UserModule,
+    MovieModule
   ],
   providers: [ConfirmExitGuard, AuthGuard],
   bootstrap: [AppComponent],
