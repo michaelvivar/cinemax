@@ -1,5 +1,8 @@
 import { State, Action, StateContext } from "@ngxs/store";
 import { SetPageConfirmExit, RemovePageConfirmExit, SetUser, RemoveUser } from "../actions/app.actions";
+import { Theater } from "../../models/theater.model";
+import { Cinema } from "../../models/cinema.model";
+import { Movie } from "../../models/movie.model";
 
 function defaults() {
     return {
