@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Movie } from '../models/movie.model';
+import { Store } from '@ngxs/store';
+import { SetMovie } from '../ngxs/actions/movie.actions';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class MovieService {
 
-  constructor(private http: HttpClient, private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private store: Store) { }
 
   async getAsync(id: any) {
     let movie = null;
@@ -17,6 +18,7 @@ export class MovieService {
       movie = data.data() as Movie;
       movie.id = id;
     })
+    this.store.dispatch(new SetMovie(movie));
     return movie;
   }
 
@@ -44,6 +46,16 @@ export class MovieService {
       });
     })
     return movies;
+  }
+
+  allActive() {
+    return this.firestore.collection('movies', ref => ref.where('status', '==', true)).snapshotChanges().pipe(map(docs => {
+      return docs.map(doc => {
+        const movie = doc.payload.doc.data() as Movie;
+        movie.id = doc.payload.doc.id;
+        return movie;
+      })
+    }))
   }
 
   add(movie: Movie) {
