@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TableBaseComponent } from '../../../utils/base.component';
 import { MatTableDataSource } from '@angular/material';
+import { Movie } from '../../../models/movie.model';
 
 @Component({
   selector: 'app-movie-table',
@@ -12,13 +13,18 @@ export class MovieTableComponent extends TableBaseComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) { super() }
 
-  movies: any;
+  movies: Movie[];
 
   ngOnInit() {
     this.title = 'Movies';
     this.columns = ['title', 'date', 'grade', 'status'];
-    this.data = new MatTableDataSource(this.route.snapshot.data['movies']);
+    this.movies = this.route.snapshot.data['movies'];
+    this.data = new MatTableDataSource(this.movies.sort(this.sortBy('-status', 'title')));
     this.data.paginator = this.paginator;
+  }
+
+  filter() {
+    
   }
 
 }

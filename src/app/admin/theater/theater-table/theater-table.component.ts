@@ -23,4 +23,8 @@ export class TheaterTableComponent extends TableBaseComponent implements OnInit 
     this.data = new MatTableDataSource(this.theaters);
     this.data.paginator = this.paginator;
   }
+
+  filter() {
+    
+  }
 }

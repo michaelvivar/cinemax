@@ -18,7 +18,12 @@ export class CinemaTableComponent extends TableBaseComponent implements OnInit {
   ngOnInit() {
     this.title = 'Cinemas';
     this.columns = ['name', 'status'];
+    this.cinemas.sort(this.sortBy('-status', 'name'));
     this.data = new MatTableDataSource(this.cinemas);
+  }
+
+  filter() {
+    
   }
 
 }
