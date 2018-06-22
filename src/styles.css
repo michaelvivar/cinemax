@@ -80,3 +80,23 @@ table {
 .flex-spacer {
     flex: 1 1 auto;
 }
+
+.mat-table .mat-icon {
+    cursor: pointer;
+}
+
+.mat-column-delete, .mat-column-edit {
+    flex: 0 0 40px !important;
+}
+
+.mat-table tr.unpublish td {
+    color: #999999;
+}
+
+.mat-table tr.active td {
+    color: blue;
+}
+
+.mat-table tr.inactive td {
+    color: red;
+}
