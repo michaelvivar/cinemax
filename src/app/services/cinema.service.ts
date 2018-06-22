@@ -4,13 +4,15 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Cinema } from '../models/cinema.model';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
+import { Store } from '@ngxs/store';
+import { SetCinema } from '../ngxs/actions/cinema.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CinemaService {
 
-  constructor(private http: HttpClient, private firestore: AngularFirestore) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore, private store: Store) { }
 
   async getAsync(theaterId: any, cinemaId: any) {
     let cinema: Cinema = null;
@@ -18,6 +20,7 @@ export class CinemaService {
       cinema = data.data() as Cinema;
       cinema.id = cinemaId;
     })
+    this.store.dispatch(new SetCinema(cinema));
     return cinema;
   }
 
