@@ -29,15 +29,39 @@ export class TheaterResolver implements Resolve<Theater> {
 @Injectable({
     providedIn: 'root'
   })
-  export class TheaterWithCinemasResolver implements Resolve<Theater> {
-  
-    constructor(private service: TheaterService) {}
-  
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const id = route.paramMap.get('id');
-        return this.service.getWithCinemasAsync(id);
-    }
+export class TheaterWithCinemasResolver implements Resolve<Theater> {
+
+  constructor(private service: TheaterService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      const id = route.paramMap.get('id');
+      return this.service.getWithCinemasAsync(id);
   }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TheatersWithCinemasResolver implements Resolve<Theater[]> {
+
+constructor(private service: TheaterService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      return this.service.AllActiveWithAllActiveCinemasAsync();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveTheatersWithActiveCinemasResolver implements Resolve<Theater[]> {
+
+constructor(private service: TheaterService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      return this.service.AllActiveWithAllActiveCinemasAsync();
+  }
+}
 
 @Injectable({
   providedIn: 'root'
