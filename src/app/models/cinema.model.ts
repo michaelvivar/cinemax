@@ -1,4 +1,5 @@
 import { Seat } from "./seat.model";
+import { Schedule } from "./schedule.model";
 
 export interface Cinema {
     id: any;
@@ -7,4 +8,5 @@ export interface Cinema {
     column: number;
     status: boolean;
     seats: { [id: number]: Seat }
+    schedules?: Schedule[];
 }
