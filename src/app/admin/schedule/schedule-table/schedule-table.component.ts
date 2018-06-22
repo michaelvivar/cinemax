@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TableBaseComponent } from '../../../utils/base.component';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Theater } from '../../../models/theater.model';
 import { Cinema } from '../../../models/cinema.model';
 import { ScheduleService } from '../../../services/schedule.service';
-import { Schedule } from '../../../models/schedule.model';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RemoveTheater } from '../../../ngxs/actions/theater.actions';
 import { RemoveCinema } from '../../../ngxs/actions/cinema.actions';
 import { RemoveMovie } from '../../../ngxs/actions/movie.actions';
+import { Schedule } from '../../../models/schedule.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'schedule-table',
@@ -22,48 +23,65 @@ export class ScheduleTableComponent extends TableBaseComponent implements OnInit
   constructor(
     private service: ScheduleService,
     private store: Store,
+    private route: ActivatedRoute,
     dialog: MatDialog, domSanitizer: DomSanitizer
   ) { super(dialog, domSanitizer) }
 
   @Input('movie') movieId: any;
   @Select(store => store.theater) theater$: Observable<Theater>;
   @Select(store => store.cinema) cinema$: Observable<Cinema>;
-  schedules: Schedule[] = [];
-  filtered: Schedule[] = [];
+  theaters: Theater[] = [];
   theaterId: any;
   cinemaId: any;
 
-  ngOnInit() {
+  filter(data: Schedule, filter: string) {
+    const value: { theater: string, cinema: string } = <any>filter;
+    if (value.theater) {
+      if (data.theater['id'] != value.theater) {
+        return false;
+      }
+      if (value.cinema) {
+        if (data.cinema['id'] != value.cinema) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
+  ngOnInit() {
+    this.theaters = this.route.snapshot.data['theaters'];
     this.columns = ['cinema', 'date', 'time', 'price', 'delete'];
 
     this.subscription = this.service.getByMovie(this.movieId).subscribe(async (data) => {
       if (data) {
-        data = this.filterByDate(data);
-        this.schedules = data.sort(this.sortBy('date'));
-        await this.filterBytheater(this.theaterId);
-        await this.filterByCinema(this.cinemaId);
-        this.data = new MatTableDataSource(this.filtered);
-      }
-      else {
-        this.schedules = [];
+        await data.forEach(o => {
+          const theater = this.theaters.find(t => t.id == o.theater);
+          if (theater) {
+            if (theater.cinemas && theater.cinemas.length > 0) {
+              o.cinema = theater.cinemas.find(c => c.id == o.cinema);
+            }
+            o.theater = { id: theater.id, name: theater.name };
+          }
+        });
+        const schedules = await data.sort(this.sortBy('date'));
+        this.data = new MatTableDataSource(this.filterByDate(schedules));
+        this.data.filterPredicate = this.filter;
+        this.data.filter = <any>{ theater: this.theaterId, cinema: this.cinemaId };
       }
     });
 
-    this.subscription = this.theater$.subscribe(async (theater) => {
+    this.subscription = this.theater$.subscribe((theater) => {
       if (theater) {
         this.theaterId = theater.id;
-        await this.filterBytheater(theater.id);
-        this.data = new MatTableDataSource(this.filtered);
+        this.data.filter = <any>{theater: theater.id, cinema: null};
       }
     });
 
-    this.subscription = this.cinema$.subscribe(async (cinema) => {
+    this.subscription = this.cinema$.subscribe((cinema) => {
       if (cinema) {
         this.cinemaId = cinema.id;
-        await this.filterBytheater(this.theaterId);
-        await this.filterByCinema(cinema.id);
-        this.data = new MatTableDataSource(this.filtered);
+        this.data.filter = <any>{theater: this.theaterId, cinema: cinema.id};
       }
     })
   }
@@ -81,21 +99,6 @@ export class ScheduleTableComponent extends TableBaseComponent implements OnInit
         this.service.delete(sched.id);
       }
     })
-  }
-
-  filterBytheater(id: any) {
-    if (id && this.schedules && this.schedules.length > 0) {
-      this.filtered = this.schedules.filter(o => o.theater.id == id);
-    }
-    else {
-      this.filtered = this.schedules;
-    }
-  }
-
-  filterByCinema(id: any) {
-    if (id && this.schedules && this.schedules.length > 0) {
-      this.filtered = this.filtered.filter(o => o.cinema.id == id);
-    }
   }
 
   filterByDate(data: Schedule[]) {
