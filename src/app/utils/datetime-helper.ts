@@ -13,29 +13,14 @@ export function combineDateTime(date: Date, time: string) {
 export function computeEndTime(time: string, runtime: number) {
     let hour = parseInt(time.split(':')[0]);
     let minute = parseInt(time.split(':')[1].split(' ')[0]);
-    if (time.split(':')[1].split(' ')[1] == 'PM') {
-      if (hour > 12) {
+    if (time.split(':')[1].split(' ')[1] == 'PM' && hour != 12) {
         hour += 12;
-      }
     }
-    if (runtime > 60) {
-      hour += parseInt(<any>(runtime / 60));
-    }
-    minute += runtime % 60;
-    if (minute > 59) {
-      hour++;
-      minute = minute - 60;
-    }
-    if (minute == 0) {
-        minute = <any>'00';
-    }
-    if (hour >= 12) {
-        if (hour > 12) {
-            hour -= 12;
-        }
-      return hour + ':' + minute + ' PM';
-    }
-    else {
-      return hour + ':' + minute + ' AM';
-    }
+    minute += runtime;
+    const date = new Date(2000, 1, 1, hour, minute, 0);
+    const t = date.toLocaleString().split(', ')[1];
+    const h = t.split(':')[0];
+    const m = parseInt(t.split(':')[1]);
+    const a = t.split(' ')[1];
+    return h + ':' + (m < 10 ? '0' + m : m) + ' ' + a;
 }
