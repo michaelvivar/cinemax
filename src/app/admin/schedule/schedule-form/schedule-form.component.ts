@@ -6,11 +6,11 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Theater } from '../../../models/theater.model';
 import { Cinema } from '../../../models/cinema.model';
-import { CinemaService } from '../../../services/cinema.service';
-import { switchMap, tap } from 'rxjs/operators';
-import { timeValidator } from '../../../utils/form-validators';
 import { combineDateTime, computeEndTime } from '../../../utils/datetime-helper';
 import { ScheduleService } from '../../../services/schedule.service';
+import { Movie } from '../../../models/movie.model';
+import { SetTheater } from '../../../ngxs/actions/theater.actions';
+import { SetCinema } from '../../../ngxs/actions/cinema.actions';
 
 @Component({
   selector: 'app-schedule-form',
@@ -21,10 +21,10 @@ export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
 
   constructor(formbuilder: FormBuilder, store: Store, dialog: MatDialog,
     private route: ActivatedRoute,
-    private cinemaService: CinemaService,
     private scheduleService: ScheduleService
   ) { super(formbuilder, store, dialog) }
 
+  movie: Movie;
   theaters: Theater[];
   cinemas: Cinema[];
 
@@ -32,39 +32,47 @@ export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
   maxDate: Date;
 
   ngOnInit() {
+    this.theaters = this.route.snapshot.data['theaters'];
+    this.theaters.sort(this.sortBy('name'));
+    this.movie = this.route.snapshot.data['movie'];
+    this.title = this.movie.title;
+
     this.form.addControl('theater', new FormControl(null, [Validators.required]));
     this.form.addControl('cinema', new FormControl({ value: null, disabled: true }, [Validators.required]));
-    this.form.addControl('price', new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1000)]));
+    this.form.addControl('price', new FormControl(null, [Validators.required, Validators.min(0)]));
     this.form.addControl('date', new FormControl(new Date(), [Validators.required]));
     this.form.addControl('start', new FormControl('00:00 AM'));
     this.form.addControl('end', new FormControl({ value: '00:00 AM', disabled: true }));
-    this.form.get('start').setValidators([Validators.required, Validators.pattern('^[0-1]?[0-9]:[0-5][0-9]\\s(AM|PM)$')]);
+    this.form.get('start').setValidators([Validators.required, Validators.pattern('^((0[1-9])|1[0-2]):[0-5][0-9]\\s(AM|PM)$')]);
+    ['date', 'start', 'end', 'price'].forEach(o => this.form.get(o).disable());
 
     this.minDate = new Date();
     this.maxDate = new Date();
     this.maxDate.setDate(new Date().getDate() + 1);
-
-    this.theaters = this.route.snapshot.data['theaters'];
   }
 
   ngAfterContentInit() {
-    const runtime = 115;
     this.subscription = this.form.get('start').valueChanges.subscribe(value => {
       if (value != '00:00 AM' && this.form.get('start').errors == null) {
-        const end = computeEndTime(value, runtime);
+        const end = computeEndTime(value, this.movie.runtime);
         this.form.get('end').setValue(end);
       }
     })
-    this.subscription = this.form.get('theater').valueChanges.pipe(tap(() => {
-      this.form.get('cinema').disable();
-    })).pipe(switchMap(value => {
-      return this.cinemaService.allActive(value);
-    }))
-    .subscribe(data => {
+    this.subscription = this.form.get('theater').valueChanges.subscribe(value => {
+      ['date', 'start', 'end', 'price'].forEach(o => this.form.get(o).disable());
       this.form.get('cinema').reset();
+      const theater = this.theaters.find(o => o.id == value);
+      this.store.dispatch(new SetTheater(theater));
+      this.cinemas = theater.cinemas;
       this.form.get('cinema').enable();
-      this.cinemas = data;
-    });
+    })
+    this.subscription = this.form.get('cinema').valueChanges.subscribe(value => {
+      if (value) {
+        const cinema = this.cinemas.find(o => o.id == value);
+        this.store.dispatch(new SetCinema(cinema));
+        ['date', 'start', 'price'].forEach(o => this.form.get(o).enable());
+      }
+    })
   }
 
   save() {
@@ -74,13 +82,22 @@ export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
         this.form.markAsUntouched();
         return;
       }
-      const time = this.time();
+      if (this.date() < new Date()) {
+        this.alert('Invalid time!');
+        this.form.markAsUntouched();
+        return;
+      }
       const data = {
-        movie: '2mDU6iwsKrWFGHnPN6Xi',
+        movie: this.movie.id,
         theater: this.form.get('theater').value,
         cinema: this.form.get('cinema').value,
         price: this.form.get('price').value,
-        time
+        date: this.date(),
+        time: {
+          start: this.form.get('start').value,
+          end: this.form.get('end').value
+        },
+        status: false
       }
       this.form.markAsUntouched();
       this.scheduleService.add(data).then(ref => {
@@ -90,15 +107,11 @@ export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  private time() {
+  private date() {
     const start = this.form.get('start').value as string;
-    const end = this.form.get('end').value as string;
     const date = this.form.get('date').value as Date;
 
-    return {
-      start: combineDateTime(date, start),
-      end: combineDateTime(date, end)
-    }
+    return combineDateTime(date, start);
   }
 
   cancel() {
