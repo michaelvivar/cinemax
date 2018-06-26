@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, PreloadAllModules } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
@@ -35,6 +35,8 @@ import { TheaterState } from './ngxs/states/theater.state';
 import { CinemaState } from './ngxs/states/cinema.state';
 import { MovieState } from './ngxs/states/movie.state';
 import { MovieModule } from './modules/movie/movie.module';
+import { AdminGuard } from './guards/admin.guard';
+import { ModulePreloadingStrategy } from './utils/preloading-strategy';
 
 @NgModule({
   declarations: [
@@ -50,10 +52,10 @@ import { MovieModule } from './modules/movie/movie.module';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+      { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AdminGuard] },
       { path: 'buy', loadChildren: './modules/buy/buy.module#BuyModule' },
       ...routes
-    ]),
+    ], { preloadingStrategy: ModulePreloadingStrategy }),
     NgxsModule.forRoot([AppState, TheaterState, CinemaState, MovieState, SeatsState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
@@ -66,7 +68,7 @@ import { MovieModule } from './modules/movie/movie.module';
     UserModule,
     MovieModule
   ],
-  providers: [ConfirmExitGuard, AuthGuard],
+  providers: [ConfirmExitGuard, AuthGuard, AdminGuard, ModulePreloadingStrategy],
   bootstrap: [AppComponent],
   entryComponents: [AlertDialog, ConfirmDialog]
 })
