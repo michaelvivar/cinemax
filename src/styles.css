@@ -100,3 +100,7 @@ table {
 .mat-table tr.inactive td {
     color: red;
 }
+
+div.mat-horizontal-content-container {
+    padding: 24px 10px !important;
+}
