@@ -1,0 +1,22 @@
+<ng-container *ngIf="user$ | async; let user else loginButton">
+    <button mat-button [matMenuTriggerFor]="menu" yPosition="below" xPosition="after">{{user.username}}</button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button (click)="logout()" mat-menu-item>Log out</button>
+    </mat-menu>
+
+    <ng-container *ngIf="isAdmin">
+        <button mat-button [matMenuTriggerFor]="admin" yPosition="below" xPosition="after">Admin</button>
+        <mat-menu #admin="matMenu" [overlapTrigger]="false">
+            <button mat-menu-item [routerLink]="['/admin']">Dashboard</button>
+            <button mat-menu-item [routerLink]="['/admin/movies']">Movies</button>
+            <button mat-menu-item [routerLink]="['/admin/theaters']">Theaters</button>
+            <button mat-menu-item [routerLink]="['/admin/schedules']">Schedules</button>
+        </mat-menu>
+    </ng-container>
+</ng-container>
+
+<ng-template #loginButton>
+    <ng-container *ngIf="btnDisplay">
+        <login-button></login-button>
+    </ng-container>
+</ng-template>

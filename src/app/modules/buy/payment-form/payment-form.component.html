@@ -1,0 +1,35 @@
+<p>
+  <mat-card>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item><span>Seats:&nbsp;</span>
+          <ng-container *ngFor="let seat of seats; let i = index">
+            <span>{{ seat.name }}</span><span *ngIf="(seats.length - 1) != i">, </span>
+          </ng-container>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <span>Number of seats : {{ seats.length }}</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <span>Ticket Price: {{ schedule.price }}</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <span>Total Amount: {{ seats.length }} x {{ schedule.price }} = Php {{ seats.length * schedule.price }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</p>
+
+<ng-container *ngIf="user$ | async; let user else loginButton">
+  <p>
+    <button mat-raised-button color="primary" (click)="pay()">Buy</button>
+  </p>
+</ng-container>
+
+<ng-template #loginButton>
+  <login-button></login-button> OR <signup-button></signup-button>
+</ng-template>

@@ -1,0 +1,14 @@
+<form>
+  <mat-form-field class="control-display-block">
+    <input type="text" placeholder="Email" [formControl]="signupForm.controls['username']" matInput />
+    <mat-error *ngIf="signupForm.controls['username'].hasError('exists')">
+      The email address is already in use by another account.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="control-display-block">
+    <input type="password" placeholder="Password" [formControl]="signupForm.controls['password']" matInput />
+  </mat-form-field>
+  <div>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="submitted || signupForm.invalid || signupForm.untouched">Sign up</button>
+  </div>
+</form>

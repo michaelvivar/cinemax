@@ -1,0 +1,18 @@
+<div>
+    <button type="button" class="btn btn-secondary btn-lg btn-block btn-sm">SCREEN</button>
+</div>
+<br/>
+<div class="seat-layout">
+  <ng-container *ngFor="let row of seats">
+    <div class="text-center">
+      <ng-container *ngFor="let seat of row">
+        <mat-checkbox
+          (change)="clicked(seat, $event)"
+          [checked]="seat.value > 0" [disabled]="seat.value == 1"
+          color="primary"
+          [ngStyle]="{visibility: seat.status ? 'visibile' : 'hidden'}"
+        ></mat-checkbox>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
