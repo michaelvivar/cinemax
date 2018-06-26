@@ -23,9 +23,10 @@
               <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" width="250" />
               <div>{{ theater.name }} - {{ cinema.name }}</div>
               <div>Php {{ cinema?.schedules[0].price }}</div>
-              <ng-container *ngFor="let sched of cinema.schedules | sort:'date'">
+              <ng-container *ngFor="let sched of cinema.schedules | sort:'date'; let i = index">
                 <ng-container *ngIf="sched.status">
-                  <div><a [routerLink]="['/buy/ticket', sched.id]">{{ sched.time.start }}</a></div>
+                  <a [routerLink]="['/buy/ticket', sched.id]">{{ sched.time.start }}</a>
+                  <span *ngIf="(cinema.schedules.length - 1) != i"> | </span>
                 </ng-container>
               </ng-container>
             </mat-card-content>
