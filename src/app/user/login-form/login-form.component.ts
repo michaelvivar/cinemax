@@ -1,9 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { Store } from '@ngxs/store';
-import { SetUser } from '../../ngxs/actions/app.actions';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -17,7 +15,6 @@ export class LoginFormComponent implements OnInit {
     private formBuild: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private store: Store,
     public dialogRef: MatDialogRef<LoginFormComponent>
   ) { }
 
@@ -25,8 +22,8 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuild.group({
-      username: new FormControl(),
-      password: new FormControl()
+      username: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required)
     });
   }
 
@@ -35,16 +32,24 @@ export class LoginFormComponent implements OnInit {
   submit() {
     this.submitted = true;
     this.userService.signInRegular(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value).then(value => {
-      this.store.dispatch(new SetUser(value));
       this.dialogRef.close();
-      this.router.navigate(['/']);
-    });
+      //this.router.navigate(['/']);
+    })
+    .catch(error => {
+      if (error.code == 'auth/wrong-password') {
+        this.loginForm.get('password').reset();
+        this.loginForm.setErrors({ failed: true });
+        this.submitted = false;
+      }
+    })
   }
 
   signInWithTwitter() {
     this.userService.signInWithTwitter()
-    .then((res) => { 
-        this.router.navigate(['/'])
+    .then((res) => {
+        this.dialogRef.close();
+        this.userService.addUser(res);
+        //this.router.navigate(['/'])
       })
     .catch((err) => console.log(err));
   }
@@ -52,7 +57,9 @@ export class LoginFormComponent implements OnInit {
   signInWithFacebook() {
     this.userService.signInWithFacebook()
     .then((res) => { 
-        this.router.navigate(['/'])
+        this.dialogRef.close();
+        this.userService.addUser(res);
+        //this.router.navigate(['/'])
       })
     .catch((err) => console.log(err));
   }
@@ -60,7 +67,9 @@ export class LoginFormComponent implements OnInit {
   signInWithGoogle() {
     this.userService.signInWithGoogle()
     .then((res) => { 
-        this.router.navigate(['/'])
+        this.dialogRef.close();
+        this.userService.addUser(res);
+        //this.router.navigate(['/'])
       })
     .catch((err) => console.log(err));
   }

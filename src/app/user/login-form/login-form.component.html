@@ -1,4 +1,7 @@
 <form>
+  <mat-error *ngIf="loginForm.hasError('failed')">
+    Email and password did not match!
+  </mat-error>
   <mat-form-field class="control-display-block">
     <input type="text" placeholder="Email" [formControl]="loginForm.controls['username']" matInput />
   </mat-form-field>
@@ -6,9 +9,13 @@
     <input type="password" placeholder="Password" [formControl]="loginForm.controls['password']" matInput />
   </mat-form-field>
   <div>
-  <button mat-raised-button color="primary" (click)="submit()" [disabled]="submitted">Log In</button>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="submitted || loginForm.invalid || loginForm.untouched">Log In</button>
   </div>
 </form>
+<br/>
+<p>
+  <mat-divider></mat-divider>
+</p>
 <p class="action-buttons">
   <button mat-raised-button color="primary" (click)="signInWithTwitter()">
     Login with Twitter
@@ -16,7 +23,7 @@
   <button mat-raised-button color="primary" (click)="signInWithFacebook()">
     Login with Facebook
   </button>
-  <button mat-raised-button color="primary" (click)="signInWithGoogle()">
+  <!-- <button mat-raised-button color="primary" (click)="signInWithGoogle()">
     Login with Google
-  </button>
+  </button> -->
 </p>
