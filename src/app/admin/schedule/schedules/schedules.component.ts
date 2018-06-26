@@ -46,6 +46,7 @@ export class SchedulesComponent extends TableBaseComponent implements OnInit {
         const schedules = await data.sort(this.sortBy('-date'));
         this.data = new MatTableDataSource(schedules);
         this.data.filterPredicate = this.filter;
+        this.data.paginator = this.paginator;
       }
     })
 
@@ -67,8 +68,9 @@ export class SchedulesComponent extends TableBaseComponent implements OnInit {
   }
 
   publish() {
-    this.service.publish(...this.selection.selected);
-    this.selection.clear();
+    this.service.publish(...this.selection.selected).then(() => {
+      this.selection.clear();
+    })
   }
 
   reset() {
