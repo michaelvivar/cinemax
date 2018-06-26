@@ -68,7 +68,7 @@ export abstract class BaseComponent {
 
 export abstract class FormBaseComponent extends BaseComponent {
 
-    constructor(formbuilder: FormBuilder, protected store: Store, dialog?: MatDialog, domSanitizer?: DomSanitizer) {
+    constructor(protected formbuilder: FormBuilder, protected store: Store, dialog?: MatDialog, domSanitizer?: DomSanitizer) {
         super(dialog, domSanitizer);
         this.form = formbuilder.group([]);
     }
@@ -113,7 +113,7 @@ export abstract class TableBaseComponent extends BaseComponent {
     masterToggle() {
       this.isAllSelected() ?
           this.selection.clear() :
-          this.data.data.forEach(row => this.selection.select(row.id));
+          this.data.data.forEach(row => this.selection.select(row));
     }
 
     abstract filter(data: any, filter: string);
