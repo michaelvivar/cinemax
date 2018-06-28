@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBaseComponent } from '../../../utils/base.component';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Movie } from '../../../models/movie.model';
-import { Cinema } from '../../../models/cinema.model';
 import { Theater } from '../../../models/theater.model';
 import { SetTheater } from '../../../ngxs/actions/theater.actions';
-import { SetCinema } from '../../../ngxs/actions/cinema.actions';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-buy-movie',
@@ -18,9 +14,8 @@ import { Observable } from 'rxjs';
 export class BuyMovieComponent extends FormBaseComponent implements OnInit {
 
   constructor(
-    formbuilder: FormBuilder, store: Store,
     private route: ActivatedRoute
-  ) { super(formbuilder, store) }
+  ) { super() }
 
   movie: Movie;
   theaters: Theater[] = [];

@@ -23,7 +23,6 @@ export class BuyTicketComponent extends BaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formbuilder: FormBuilder,
-    private store: Store
   ) { super() }
 
   @Select(store => store.seats) seats$: Observable<{ selected: Seat[] }>;
@@ -69,13 +68,5 @@ export class BuyTicketComponent extends BaseComponent implements OnInit {
   ngAfterContentInit() {}
   save() {}
   cancel() {}
-
-  ngOnDestroy() {
-    this.store.dispatch(new RemoveTheater());
-    this.store.dispatch(new RemoveCinema());
-    this.store.dispatch(new RemoveMovie());
-    this.store.dispatch(new ResetSeat());
-    super.ngOnDestroy();
-  }
 
 }
