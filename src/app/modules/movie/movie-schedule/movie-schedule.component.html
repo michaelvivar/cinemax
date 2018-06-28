@@ -22,7 +22,7 @@
               <div>{{ movie.title }} ({{ movie.grade }})</div>
               <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" width="250" />
               <div>{{ theater.name }} - {{ cinema.name }}</div>
-              <div>Php {{ cinema?.schedules[0].price }}</div>
+              <div>{{ cinema?.schedules[0].price | currency: 'Php ' }}</div>
               <ng-container *ngFor="let sched of cinema.schedules | sort:'date'; let i = index">
                 <ng-container *ngIf="sched.status">
                   <a [routerLink]="['/buy/ticket', sched.id]">{{ sched.time.start }}</a>
