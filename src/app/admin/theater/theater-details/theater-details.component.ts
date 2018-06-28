@@ -3,7 +3,6 @@ import { BaseComponent } from '../../../utils/base.component';
 import { Theater } from '../../../models/theater.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TheaterService } from '../../../services/theater.service';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-theater-details',
@@ -15,9 +14,8 @@ export class TheaterDetailsComponent extends BaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: TheaterService,
-    dialog: MatDialog
-  ) { super(dialog) }
+    private service: TheaterService
+  ) { super() }
 
   theater: Theater;
 

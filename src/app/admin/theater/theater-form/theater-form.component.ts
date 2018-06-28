@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBaseComponent } from '../../../utils/base.component';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { MatDialog } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Theater } from '../../../models/theater.model';
 import { TheaterService } from '../../../services/theater.service';
@@ -18,10 +16,8 @@ export class TheaterFormComponent extends FormBaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    formbuilder: FormBuilder,
-    store: Store, dialog: MatDialog,
     private service: TheaterService
-  ) { super(formbuilder, store, dialog) }
+  ) { super() }
 
   ngOnInit() {
     this.title = 'Add Theater';
