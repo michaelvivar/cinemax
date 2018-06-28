@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
-import { ConfirmExitGuard } from "../guards/confirm-exit.guard";
 import { ErrorPageComponent } from "./error-page/error-page.component";
 
 export const routes: Routes = [
