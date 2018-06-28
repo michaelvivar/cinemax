@@ -7,8 +7,8 @@
           <h1>{{ title }} ({{ schedule.movie.grade }})</h1>
       </section>
       <div>{{ schedule.theater.name }} - {{ schedule.cinema.name }}</div>
-      <div>{{ schedule.date | date }} - {{ schedule.time.start }}</div>
-      <div>Php {{ schedule.price }}.00</div>
+      <div>{{ schedule.date | date:'fullDate'}} - {{ schedule.date | date:'shortTime' }}</div>
+      <div>{{ schedule.price | currency: 'Php ' }}</div>
   </div>
 </div>
 
