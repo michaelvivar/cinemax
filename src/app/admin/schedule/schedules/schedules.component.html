@@ -84,7 +84,7 @@
 
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element"> {{element.date | date }}</td>
+      <td mat-cell *matCellDef="let element"> {{element.date | date: 'fullDate' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="time">
@@ -94,14 +94,14 @@
 
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let element"> {{element.price }} </td>
+      <td mat-cell *matCellDef="let element"> {{element.price | currency:'Php ' }} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
     <tr mat-row *matRowDef="let row; columns: columns;" [ngClass]="{ active: row.status == true, unpublish: row.status != true, inactive: row.date < today }"></tr>
   </table>
 
-  <mat-paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
 </div>
 <p>&nbsp;</p>
