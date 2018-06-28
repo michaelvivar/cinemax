@@ -3,7 +3,6 @@ import { Cinema } from '../../../models/cinema.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from '../../../utils/base.component';
 import { CinemaService } from '../../../services/cinema.service';
-import { MatDialog } from '@angular/material';
 import { Theater } from '../../../models/theater.model';
 
 @Component({
@@ -13,7 +12,7 @@ import { Theater } from '../../../models/theater.model';
 })
 export class CinemaDetailsComponent extends BaseComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private service: CinemaService, dialog: MatDialog) { super(dialog) }
+  constructor(private route: ActivatedRoute, private router: Router, private service: CinemaService) { super() }
 
   cinema: Cinema;
   theater: Theater;

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 import { FormBaseComponent } from '../../../utils/base.component';
 import { CinemaService } from '../../../services/cinema.service';
 import { Cinema } from '../../../models/cinema.model';
@@ -19,11 +17,8 @@ export class CinemaFormComponent extends FormBaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    store: Store,
-    formbuilder: FormBuilder,
-    dialog: MatDialog,
     private service: CinemaService
-  ) { super(formbuilder, store, dialog) }
+  ) { super() }
 
   errorMatcher = new FormErrorStateMatcher();
   theaterId: any;
