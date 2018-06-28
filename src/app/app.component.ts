@@ -3,6 +3,10 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel, Naviga
 import { Store } from '@ngxs/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { SetUser } from './ngxs/actions/app.actions';
+import { switchMap, map } from 'rxjs/operators';
+import { RemoveMovie } from './ngxs/actions/movie.actions';
+import { RemoveCinema } from './ngxs/actions/cinema.actions';
+import { RemoveTheater } from './ngxs/actions/theater.actions';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +16,11 @@ import { SetUser } from './ngxs/actions/app.actions';
 export class AppComponent {
 
   constructor(router: Router, store: Store, firebaseAuth: AngularFireAuth) {
+    
+    store.dispatch(new RemoveMovie());
+    store.dispatch(new RemoveCinema());
+    store.dispatch(new RemoveTheater());
+
     router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         this.progress = 5;
@@ -26,14 +35,21 @@ export class AppComponent {
         router.navigate(['error']);
       }
     })
-    firebaseAuth.authState.subscribe((data: any) => {
+
+    firebaseAuth.idToken.pipe(switchMap(token => {
+      return firebaseAuth.authState.pipe(map(user => {
+        if (user) {
+          return { token, email: user.email, id: user.uid, name: user.displayName };
+        }
+        return null;
+      }))
+    }))
+    .subscribe(data => {
       if (data) {
         store.dispatch(new SetUser(data));
       }
-    });
+    })
   }
 
   progress: number = 0;
-
-  title = 'app';
 }
