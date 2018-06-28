@@ -9,6 +9,10 @@ table {
     width: 100%;
 }
 
+button:focus {
+    outline: none !important;
+}
+
 .text-right {
     text-align: right;
 }
@@ -41,6 +45,10 @@ table {
 
 .action-buttons button, .action-buttons a {
     margin-right: 10px;
+}
+
+.mat-raised-button {
+    text-decoration: none !important;
 }
 
 .text-right .action-buttons button, .text-right .action-buttons a {
