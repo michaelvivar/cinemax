@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { Theater } from '../../../models/theater.model';
 import { Cinema } from '../../../models/cinema.model';
 import { ScheduleService } from '../../../services/schedule.service';
-import { MatTableDataSource, MatDialog } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
+import { MatTableDataSource } from '@angular/material';
 import { RemoveTheater } from '../../../ngxs/actions/theater.actions';
 import { RemoveCinema } from '../../../ngxs/actions/cinema.actions';
 import { RemoveMovie } from '../../../ngxs/actions/movie.actions';
@@ -22,10 +21,8 @@ export class ScheduleTableComponent extends TableBaseComponent implements OnInit
 
   constructor(
     private service: ScheduleService,
-    private store: Store,
-    private route: ActivatedRoute,
-    dialog: MatDialog, domSanitizer: DomSanitizer
-  ) { super(dialog, domSanitizer) }
+    private route: ActivatedRoute
+  ) { super() }
 
   @Input('movie') movieId: any;
   @Select(store => store.theater) theater$: Observable<Theater>;

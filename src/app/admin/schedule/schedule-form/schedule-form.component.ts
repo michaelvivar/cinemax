@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBaseComponent } from '../../../utils/base.component';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { MatDialog } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Theater } from '../../../models/theater.model';
 import { Cinema } from '../../../models/cinema.model';
@@ -19,10 +17,10 @@ import { SetCinema } from '../../../ngxs/actions/cinema.actions';
 })
 export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
 
-  constructor(formbuilder: FormBuilder, store: Store, dialog: MatDialog,
+  constructor(
     private route: ActivatedRoute,
     private scheduleService: ScheduleService
-  ) { super(formbuilder, store, dialog) }
+  ) { super() }
 
   movie: Movie;
   theaters: Theater[];
