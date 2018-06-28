@@ -7,8 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { RouterModule } from '@angular/router';
 import { SignupFormComponent } from './signup-form/signup-form.component';
-import { LoginButtonComponent } from './login-button/login-button.component';
-import { SignupButtonComponent } from './signup-button/signup-button.component';
+import { LoginDialogDirective } from './directives/login-dialog.directive';
+import { SignupDialogDirective } from './directives/signup-dialog.directive';
 
 const materials = [MatFormFieldModule, MatInputModule, MatButtonModule, MatMenuModule, MatDividerModule];
 
@@ -16,8 +16,8 @@ const materials = [MatFormFieldModule, MatInputModule, MatButtonModule, MatMenuM
   imports: [
     CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ...materials
   ],
-  exports: [UserMenuComponent, LoginButtonComponent, SignupButtonComponent],
-  declarations: [LoginFormComponent, UserMenuComponent, SignupFormComponent, LoginButtonComponent, SignupButtonComponent],
+  exports: [UserMenuComponent, LoginDialogDirective, SignupDialogDirective],
+  declarations: [LoginFormComponent, UserMenuComponent, SignupFormComponent, LoginDialogDirective, SignupDialogDirective],
   providers: [UserService],
   entryComponents: [LoginFormComponent, SignupFormComponent]
 })
