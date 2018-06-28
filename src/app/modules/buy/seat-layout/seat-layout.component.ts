@@ -2,8 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ScheduleService } from '../../../services/schedule.service';
 import { Seat } from '../../../models/seat.model';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { MatCheckboxChange, MatDialog } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material';
 import { Store, Select } from '@ngxs/store';
 import { AddSeat, RemoveSeat } from '../../../ngxs/actions/seat.actions';
 import { BaseComponent } from '../../../utils/base.component';
@@ -15,7 +14,7 @@ import { BaseComponent } from '../../../utils/base.component';
 })
 export class SeatLayoutComponent extends BaseComponent implements OnInit {
 
-  constructor(private service: ScheduleService, private store: Store, dialog: MatDialog) { super(dialog) }
+  constructor(private service: ScheduleService) { super() }
 
   @Input('id') id: any;
   @Select(store => store.seats) seats$: Observable<{ selected: Seat[] }>;

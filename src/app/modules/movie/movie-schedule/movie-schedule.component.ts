@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../../../services/schedule.service';
 import { FormBaseComponent } from '../../../utils/base.component';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Theater } from '../../../models/theater.model';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { map } from 'rxjs/operators';
 import { Movie } from '../../../models/movie.model';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'movie-schedule',
@@ -19,9 +19,7 @@ export class MovieScheduleComponent extends FormBaseComponent implements OnInit 
   constructor(
     private service: ScheduleService,
     private route: ActivatedRoute,
-    formbuilder: FormBuilder,
-    store: Store
-  ) { super(formbuilder, store) }
+  ) { super() }
 
   @Select(store => store.theater) theater$: Observable<Theater>;
   id: any;
