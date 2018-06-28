@@ -6,5 +6,6 @@ export interface Movie {
     grade: string;
     runtime: number;
     actors: string[];
+    director: string;
     status: boolean;
 }
