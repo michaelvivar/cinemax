@@ -6,7 +6,7 @@ import { BaseComponent } from '../../utils/base.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styles: []
+  styles: ['.mat-list-item { font-size: 12px } .mat-raised-button { font-size: 12px } p { margin-top: 10px }']
 })
 export class DashboardComponent extends BaseComponent implements OnInit {
 

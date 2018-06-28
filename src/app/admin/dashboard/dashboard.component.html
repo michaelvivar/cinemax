@@ -1,12 +1,30 @@
 <div class="row">
-    <ng-container *ngFor="let movie of movies">
-        <div class="col-sm-4">
-          <div>{{ movie.title }}</div>
-          <a [routerLink]="['/admin/schedule/movie', movie.id]">
-            <div class="movie-poster-md">
-                <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" width="240" />
+  <ng-container *ngFor="let movie of movies | sort:'date'">
+    <div class="col-md-6">
+      <mat-card>
+        <mat-card-content>
+            <p>{{ movie.title }}</p>
+            <div class="row">
+              <div class="col-md-4">
+                <ng-container *ngIf="movie.image">
+                    <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" />
+                </ng-container>
+                <p><a mat-raised-button color="primary" [routerLink]="['/admin/schedule/movie', movie.id]">Schedules</a></p>
+              </div>
+              <div class="col-md-8">
+                <mat-list>
+                  <mat-list-item>Running Time: {{ movie.runtime }}</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>MTRCB Rating: {{ movie.grade }}</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item>Release Date: {{ movie.date | date }}</mat-list-item>
+                  <mat-divider></mat-divider>
+                </mat-list>
+              </div>
             </div>
-          </a>
-        </div>
-      </ng-container>
+        </mat-card-content>
+      </mat-card>
+      <br/><br/>
+    </div>
+  </ng-container>
 </div>
