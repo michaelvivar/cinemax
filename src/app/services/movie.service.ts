@@ -53,6 +53,7 @@ export class MovieService {
       return docs.map(doc => {
         const movie = doc.payload.doc.data() as Movie;
         movie.id = doc.payload.doc.id;
+        movie.date = new Date(movie.date['seconds'] * 1000);
         return movie;
       })
     }))
