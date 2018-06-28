@@ -1,7 +1,7 @@
 <div class="row">
   <ng-container *ngFor="let movie of movies$ | async">
-    <div class="col-md-4">
-        <div>{{ movie.title }}</div>
+    <div class="col-md-4" [hidden]="!movie.status">
+        <div>{{ movie.title }} ({{ movie.grade }})</div>
         <ng-container *ngIf="movie.image">
             <a [routerLink]="['/movie/schedules', movie.id]">
                 <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" width="250" />
