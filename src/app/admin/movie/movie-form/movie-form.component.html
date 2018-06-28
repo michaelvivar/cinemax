@@ -10,39 +10,65 @@
           This field is required!
         </mat-error>
       </mat-form-field>
-      
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Release date" [formControl]="form.controls['date']">
-        <mat-error *ngIf="form.controls['date'].hasError('required')">
-          This field is required!
-        </mat-error>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      
-      <div>
-          <mat-form-field>
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
+              <input matInput [matDatepicker]="picker" placeholder="Release date" [formControl]="form.controls['date']">
+              <mat-error *ngIf="form.controls['date'].hasError('required')">
+                This field is required!
+              </mat-error>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
               <input matInput type="number" [formControl]="form.controls['runtime']" placeholder="Running time" />
               <mat-hint align="start">Total running time in minutes</mat-hint>
-          </mat-form-field>
-      </div>
-      
-      <mat-form-field>
-        <mat-select placeholder="Select Grade" [formControl]="form.controls['grade']">
-          <mat-option *ngFor="let grade of ['G', 'PG', 'R-13', 'R-18']" [value]="grade">
-            {{ grade }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+            </mat-form-field>
+          </div>
 
-      <div>
-          <mat-form-field>
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
+              <mat-select placeholder="Select Grade" [formControl]="form.controls['grade']">
+                <mat-option *ngFor="let grade of ['G', 'PG', 'R-13', 'R-18']" [value]="grade">
+                  {{ grade }}
+                </mat-option>
+              </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
               <mat-select placeholder="Status" [formControl]="form.controls['status']">
                 <mat-option [value]="true">Active</mat-option>
                 <mat-option [value]="false">Inactive</mat-option>
               </mat-select>
-          </mat-form-field>
-      </div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
+              <input type="text" matInput [formControl]="form.controls['director']" placeholder="Director" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" formArrayName="actors">
+          <ng-container *ngFor="let actor of actors.controls; let i = index" [formGroupName]="i">
+            <div class="col-md-6">
+              <mat-form-field class="control-display-block">
+                <input matInput type="text" formControlName="name" placeholder="Name" />
+                <mat-icon matSuffix (click)="deleteActor(i)">delete</mat-icon>
+              </mat-form-field>
+            </div>
+            <ng-container *ngIf="(actors.controls.length - 1) == i">
+              <div class="col-md-6"><button mat-raised-button (click)="addActor()" color="primary" [disabled]="form.invalid">Add Actor</button></div>
+            </ng-container>
+            <div class="col-md-6"></div>
+          </ng-container>
+        </div>
+      </form>
 
       <p class="action-buttons">
         <button mat-raised-button color="default" (click)="cancel()">Cancel</button>

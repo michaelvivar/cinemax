@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { FormControl, Validators, FormArray } from '@angular/forms';
 import { FormBaseComponent } from '../../../utils/base.component';
-import { MatDialog } from '@angular/material';
 import { Movie } from '../../../models/movie.model';
 import { MovieService } from '../../../services/movie.service';
 import { RemovePageConfirmExit } from '../../../ngxs/actions/app.actions';
@@ -18,11 +16,8 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    store: Store,
-    formbuilder: FormBuilder,
-    dialog: MatDialog,
     private service: MovieService
-  ) { super(formbuilder, store, dialog) }
+  ) { super() }
 
   ngOnInit() {
     this.title = 'Add Movie';
@@ -32,6 +27,10 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
     this.form.addControl('runtime', new FormControl(null, [Validators.required, Validators.min(30)]));
     this.form.addControl('status', new FormControl());
 
+    this.form.addControl('director', new FormControl(''));
+    this.form.addControl('actors', this.formbuilder.array([]));
+    this.addActor();
+
     if (this.id = this.route.snapshot.params['id']) {
       this.title = 'Edit Movie';
       const movie = this.route.snapshot.data['movie'] as Movie;
@@ -40,20 +39,50 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
       this.form.controls['grade'].setValue(movie.grade);
       this.form.controls['runtime'].setValue(movie.runtime);
       this.form.controls['status'].setValue(movie.status);
+      this.form.controls['director'].setValue(movie.director);
+      if (movie.actors && movie.actors.length > 0) {
+        this.actors.removeAt(0);
+        movie.actors.forEach(o => this.addActor(o));
+      }
     }
+  }
+
+  get actors(): FormArray {
+    return this.form.get('actors') as FormArray;
+  };
+
+  addActor(value?: string) {
+    const actor = this.formbuilder.group({ name: new FormControl(value, Validators.required)});
+    this.actors.push(actor);
+  }
+
+  deleteActor(i: number) {
+    this.actors.removeAt(i);
+    this.form.markAsTouched();
   }
 
   save() {
     if (this.form.valid) {
+      const actors = [];
+      this.actors.controls.forEach(o => {
+        if (o.value['name']) {
+          actors.push(o.value['name']);
+        }
+      })
+      const values = this.form.value;
+      values['actors'] = actors;
+      if (!values.director) {
+        values.director = '';
+      }
       this.form.markAsUntouched();
       this.store.dispatch(new RemovePageConfirmExit());
       if (this.id) {
-        this.service.update(this.id, this.form.value).then(() => {
+        this.service.update(this.id, values).then(() => {
           this.router.navigate(['/admin/movie', this.id]);
         })
       }
       else {
-        this.service.add(this.form.value).then(ref => {
+        this.service.add(values).then(ref => {
           this.router.navigate(['/admin/movie', ref.id]);
         })
       }
