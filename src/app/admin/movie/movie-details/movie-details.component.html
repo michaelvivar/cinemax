@@ -25,11 +25,19 @@
             </div>
             <div class="col-sm-8">
                 <mat-list>
-                    <mat-list-item>Running Time: <mat-chip-list><mat-chip>{{ movie.runtime }}</mat-chip></mat-chip-list></mat-list-item>
+                    <mat-list-item>Running Time: {{ movie.runtime }}</mat-list-item>
                     <mat-divider></mat-divider>
-                    <mat-list-item>MTRCB Rating: <mat-chip-list><mat-chip>{{ movie.grade }}</mat-chip></mat-chip-list></mat-list-item>
+                    <mat-list-item>MTRCB Rating: {{ movie.grade }}</mat-list-item>
                     <mat-divider></mat-divider>
-                    <mat-list-item>Release Date: <mat-chip-list><mat-chip>{{ movie.date | date }}</mat-chip></mat-chip-list></mat-list-item>
+                    <mat-list-item>Release Date: {{ movie.date | date: 'fullDate' }}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>Director: {{ movie.director }}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <ng-container *ngIf="movie?.actors?.length > 0">
+                        <!-- <mat-list-item>Actors:&nbsp;<span *ngFor="let actor of movie.actors; let i = index">{{ actor }}<span [hidden]="(movie.actors.length - 1) == i">,&nbsp;</span></span></mat-list-item> -->
+                        <mat-list-item>Actors: {{ movie.actors | join }}</mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
                 </mat-list>
             </div>
         </div>
