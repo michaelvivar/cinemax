@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { UserService } from '../services/user.service';
 import { RemoveUser, SetUser } from '../../ngxs/actions/app.actions';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -17,21 +17,21 @@ import { Router } from '@angular/router';
 export class UserMenuComponent implements OnInit {
 
   constructor(
-    private firebaseAuth: AngularFireAuth,
     private userService: UserService,
     private store: Store,
     private router: Router
   ) { }
 
+  @Select(store => store.app.user) user: Observable<any>;
   user$: Observable<any>;
   btnDisplay = false;
   isAdmin = false;
 
   ngOnInit() {
-    this.user$ = this.firebaseAuth.authState.pipe(map(user => {
+    this.user$ = this.user.pipe(map(user => {
       if (user) {
-        const username = user.displayName || user.email;
-        return { id: user.uid, username }
+        const username = user.name || user.email;
+        return { id: user.id, username }
       }
     })).pipe(tap(user => {
       if(user) {
