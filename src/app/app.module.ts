@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -9,6 +9,7 @@ import { ConfirmExitGuard } from './guards/confirm-exit.guard';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { AppState } from './ngxs/states/app.state';
 
 import { routes, pages } from './pages/routes';
@@ -37,6 +38,7 @@ import { MovieState } from './ngxs/states/movie.state';
 import { MovieModule } from './modules/movie/movie.module';
 import { AdminGuard } from './guards/admin.guard';
 import { ModulePreloadingStrategy } from './utils/preloading-strategy';
+import { ServiceLocator } from './utils/service-locator';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { ModulePreloadingStrategy } from './utils/preloading-strategy';
       ...routes
     ], { preloadingStrategy: ModulePreloadingStrategy }),
     NgxsModule.forRoot([AppState, TheaterState, CinemaState, MovieState, SeatsState]),
+    NgxsStoragePluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     BrowserAnimationsModule,
@@ -72,4 +75,8 @@ import { ModulePreloadingStrategy } from './utils/preloading-strategy';
   bootstrap: [AppComponent],
   entryComponents: [AlertDialog, ConfirmDialog]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    ServiceLocator.injector = this.injector;
+  }
+}
