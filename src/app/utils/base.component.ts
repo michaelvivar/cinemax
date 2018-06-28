@@ -1,17 +1,31 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { SetPageConfirmExit } from "../ngxs/actions/app.actions";
-import { Observable, Subscription, of } from "rxjs";
+import { Subscription } from "rxjs";
 import { MatDialog, MatTableDataSource, MatPaginator } from "@angular/material";
 import { ConfirmDialog } from "../components/confirm-dialog/confirm-dialog.component";
 import { AlertDialog } from "../components/alert-dialog/alert-dialog.component";
 import { ViewChild } from "@angular/core";
 import { SelectionModel } from "@angular/cdk/collections";
-import { SafeHtml, DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer } from "@angular/platform-browser";
+import { ServiceLocator } from "./service-locator";
+import { safeHtml } from "./html-helper";
+import { RemoveMovie } from "../ngxs/actions/movie.actions";
+import { RemoveCinema } from "../ngxs/actions/cinema.actions";
+import { RemoveTheater } from "../ngxs/actions/theater.actions";
+import { ResetSeat } from "../ngxs/actions/seat.actions";
 
 export abstract class BaseComponent {
 
-    constructor(public dialog?: MatDialog, protected domSanitizer?: DomSanitizer) {}
+    constructor() {
+        this.dialog = ServiceLocator.injector.get(MatDialog);
+        this.domSanitizer = ServiceLocator.injector.get(DomSanitizer);
+        this.store = ServiceLocator.injector.get(Store);
+    }
+
+    protected store: Store;
+    protected dialog: MatDialog;
+    protected domSanitizer: DomSanitizer;
 
     protected title: string;
     private subscriptions: Subscription[] = [];
@@ -23,11 +37,15 @@ export abstract class BaseComponent {
     ngOnDestroy() {
         this.subscriptions.forEach(o => o.unsubscribe());
         console.log('Destroyed!', this.subscriptions.length);
+        // this.store.dispatch(new RemoveMovie());
+        // this.store.dispatch(new RemoveCinema());
+        // this.store.dispatch(new RemoveTheater());
+        this.store.dispatch(new ResetSeat());
     }
 
     alert(message: string, title?: string) {
         if (this.domSanitizer) {
-            message = <any>this.safeHtml(message);
+            message = <any>safeHtml(message);
         }
         if (this.dialog) {
             let dialogRef = this.dialog.open(AlertDialog, {
@@ -41,7 +59,7 @@ export abstract class BaseComponent {
 
     confirm(message: string, title?: string): Promise<boolean> {
         if (this.domSanitizer) {
-            message = <any>this.safeHtml(message);
+            message = <any>safeHtml(message);
         }
         if (this.dialog) {
             let dialogRef = this.dialog.open(ConfirmDialog, {
@@ -53,25 +71,34 @@ export abstract class BaseComponent {
         }
     }
 
-    safeHtml(content: string): SafeHtml {
-        if (this.domSanitizer) {
-            return this.domSanitizer.bypassSecurityTrustHtml(content);
-        }
-    }
+    // safeHtml(content: string): SafeHtml {
+    //     if (this.domSanitizer) {
+    //         return this.domSanitizer.bypassSecurityTrustHtml(content);
+    //     }
+    // }
 
     sortBy = (...fields: string[]) => (a, b) => fields.map(o => {
         let dir = 1;
         if (o[0] === '-') { dir = -1; o=o.substring(1); }
         return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
     }).reduce((p, n) => p ? p : n, 0);
+
+    back() {
+
+    }
 }
 
 export abstract class FormBaseComponent extends BaseComponent {
 
-    constructor(protected formbuilder: FormBuilder, protected store: Store, dialog?: MatDialog, domSanitizer?: DomSanitizer) {
-        super(dialog, domSanitizer);
-        this.form = formbuilder.group([]);
+    constructor() {
+        super();
+        this.store = ServiceLocator.injector.get(Store);
+        this.formbuilder = ServiceLocator.injector.get(FormBuilder);
+        this.form = this.formbuilder.group([]);
     }
+
+    protected store: Store;
+    protected formbuilder: FormBuilder;
 
     ngAfterContentInit() {
         this.subscription = this.form.valueChanges.subscribe(data => {
@@ -92,10 +119,6 @@ export abstract class FormBaseComponent extends BaseComponent {
 }
 
 export abstract class TableBaseComponent extends BaseComponent {
-
-    constructor(dialog?: MatDialog, domSanitizer?: DomSanitizer) {
-        super(dialog, domSanitizer);
-    }
 
     data = new MatTableDataSource([]);
     columns: string[] = [];
