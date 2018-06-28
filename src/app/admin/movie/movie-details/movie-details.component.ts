@@ -5,7 +5,6 @@ import { Movie } from '../../../models/movie.model';
 import { ImageUpload } from '../../../models/image-upload.model';
 import { ImageService } from '../../../services/image.service';
 import { MovieService } from '../../../services/movie.service';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-movie-details',
@@ -19,8 +18,7 @@ export class MovieDetailsComponent extends BaseComponent implements OnInit {
     private router: Router,
     private imageService: ImageService,
     private movieService: MovieService,
-    dialog: MatDialog
-  ) { super(dialog) }
+  ) { super() }
 
   @ViewChild('btn') uploadBtn: ElementRef;
 
