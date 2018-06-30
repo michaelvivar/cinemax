@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
+import { debounceTime } from 'rxjs/operators';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -22,9 +22,25 @@ export class SignupFormComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuild.group({
-      username: new FormControl(null, Validators.required),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)])
+      username: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      confirm: new FormControl(null, [Validators.required, Validators.minLength(6)])
     });
+    this.signupForm.valueChanges
+    .pipe(debounceTime(500))
+    .subscribe(() => {
+      this.validate();
+    })
+  }
+
+  validate() {
+    if (!this.signupForm.get('password').errors) {
+      if ((<string>this.signupForm.get('confirm').value || '').length >= 6) {
+        if (this.signupForm.get('password').value != this.signupForm.get('confirm').value) {
+          this.signupForm.get('confirm').setErrors({ notMatch: true });
+        }
+      }
+    }
   }
 
   submit() {

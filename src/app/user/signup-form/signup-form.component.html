@@ -7,6 +7,15 @@
   </mat-form-field>
   <mat-form-field class="control-display-block">
     <input type="password" placeholder="Password" [formControl]="signupForm.controls['password']" matInput />
+    <mat-error *ngIf="signupForm.controls['password'].hasError('minlength')">
+        Password must be atleast 6 characters.
+      </mat-error>
+  </mat-form-field>
+  <mat-form-field class="control-display-block">
+    <input type="password" placeholder="Confirm password" [formControl]="signupForm.controls['confirm']" matInput />
+    <mat-error *ngIf="signupForm.controls['confirm'].hasError('notMatch')">
+      Password did not match!
+    </mat-error>
   </mat-form-field>
   <div>
   <button mat-raised-button color="primary" (click)="submit()" [disabled]="submitted || signupForm.invalid || signupForm.untouched">Sign up</button>
