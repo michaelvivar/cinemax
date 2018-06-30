@@ -1,6 +1,6 @@
-<div class="row">
+<div class="grid c3-auto grid-gap-20">
   <ng-container *ngFor="let movie of movies$ | async">
-    <div class="col-md-4" [hidden]="!movie.status">
+    <div class="grid-item" [hidden]="!movie.status">
         <div>{{ movie.title }} ({{ movie.grade }})</div>
         <ng-container *ngIf="movie.image">
             <a [routerLink]="['/movie/schedules', movie.id]">
