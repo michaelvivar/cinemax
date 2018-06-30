@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NowShowingComponent } from './now-showing/now-showing.component';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../../shared/shared.module';
-import { MovieResolver } from '../../services/resolver/movie.resolver';
-import { ActiveTheatersWithActiveCinemasResolver } from '../../services/resolver/theater.resolver';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
-import { MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule } from '@angular/material';
+import { MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule, MatListModule, MatDividerModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MovieInfoDialogComponent } from './components/movie-info-dialog/movie-info-dialog.component';
+import { MovieInfoDialogDirective } from './directives/movie-info-dialog.directive';
+import { MovieVideoComponent } from './components/movie-video/movie-video.component';
+import { SharedModule } from '../../shared/shared.module';
+import { MovieResolver } from '@services/resolver/movie.resolver';
+import { ActiveTheatersWithActiveCinemasResolver } from '@services/resolver/theater.resolver';
 
-const materials = [MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule];
+const materials = [MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,
+MatDialogModule, MatListModule, MatDividerModule];
 
 @NgModule({
   imports: [
@@ -19,7 +23,8 @@ const materials = [MatCardModule, MatFormFieldModule, MatInputModule, MatSelectM
     ]),
     ...materials
   ],
-  exports: [NowShowingComponent],
-  declarations: [NowShowingComponent, MovieScheduleComponent]
+  exports: [NowShowingComponent, MovieInfoDialogDirective],
+  declarations: [NowShowingComponent, MovieScheduleComponent, MovieInfoDialogComponent, MovieInfoDialogDirective, MovieVideoComponent],
+  entryComponents: [MovieInfoDialogComponent]
 })
 export class MovieModule { }

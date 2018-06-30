@@ -1,0 +1,6 @@
+<movie-video [url]="movie.video"></movie-video>
+<mat-list>
+  <mat-list-item>Director: {{ movie.director }}</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>Actors: {{ movie.actors | join }}</mat-list-item>
+</mat-list>
