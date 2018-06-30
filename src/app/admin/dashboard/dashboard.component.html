@@ -1,17 +1,17 @@
-<div class="row">
+<div class="grid c2-auto grid-gap-20">
   <ng-container *ngFor="let movie of movies | sort:'date'">
-    <div class="col-md-6">
+    <div class="grid-item">
       <mat-card>
         <mat-card-content>
             <p>{{ movie.title }}</p>
-            <div class="row">
-              <div class="col-md-4">
+            <div class="grid c2-100-auto grid-gap-10">
+              <div class="grid-item item-1">
                 <ng-container *ngIf="movie.image">
                     <img [src]="movie.image" alt="..." class="img-thumbnail img-fluid rounded" />
                 </ng-container>
                 <p><a mat-raised-button color="primary" [routerLink]="['/admin/schedule/movie', movie.id]">Schedules</a></p>
               </div>
-              <div class="col-md-8">
+              <div class="grid-item item-2">
                 <mat-list>
                   <mat-list-item>Running Time: {{ movie.runtime }}</mat-list-item>
                   <mat-divider></mat-divider>
@@ -24,7 +24,6 @@
             </div>
         </mat-card-content>
       </mat-card>
-      <br/><br/>
     </div>
   </ng-container>
 </div>
