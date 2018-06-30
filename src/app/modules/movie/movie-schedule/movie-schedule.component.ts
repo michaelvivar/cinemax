@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ScheduleService } from '../../../services/schedule.service';
-import { FormBaseComponent } from '../../../utils/base.component';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { Theater } from '../../../models/theater.model';
 import { Select } from '@ngxs/store';
 import { map } from 'rxjs/operators';
-import { Movie } from '../../../models/movie.model';
 import { FormControl } from '@angular/forms';
+import { Theater } from '@models/theater.model';
+import { Movie } from '@models/movie.model';
+import { ScheduleService } from '@services/schedule.service';
+import { FormBaseComponent } from '@utils/base.component';
 
 @Component({
   selector: 'movie-schedule',
