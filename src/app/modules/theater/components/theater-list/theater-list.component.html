@@ -1,0 +1,6 @@
+<mat-nav-list>
+  <ng-container *ngFor="let theater of theaters">
+    <mat-list-item [routerLink]="['/theater', theater.id]">{{ theater.name }}</mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-nav-list>

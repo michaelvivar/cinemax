@@ -1,0 +1,6 @@
+<h2>{{ (theater$ | async)?.name }}</h2>
+<div class="grid c3-auto grid-gap-20">
+    <ng-container *ngFor="let cinema of cinemas">
+        <cinema-schedule [data]="cinema"></cinema-schedule>
+    </ng-container>
+</div>
