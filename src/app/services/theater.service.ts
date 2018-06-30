@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Theater } from '../models/theater.model';
-import { Cinema } from '../models/cinema.model';
 import { Store } from '@ngxs/store';
-import { SetTheater } from '../ngxs/actions/theater.actions';
+import { map } from 'rxjs/operators';
+import { Theater } from '@models/theater.model';
+import { SetTheater } from '@stores/actions/theater.actions';
+import { Cinema } from '@models/cinema.model';
 
 @Injectable({
   providedIn: 'root'
@@ -107,6 +108,16 @@ export class TheaterService {
       });
     })
     return theaters;
+  }
+
+  allActive() {
+    return this.firestore.collection('theaters', q => q.where('status', '==', true)).snapshotChanges().pipe(map(docs => {
+      return docs.map(doc => {
+        const theater = doc.payload.doc.data() as Theater;
+        theater.id = doc.payload.doc.id;
+        return theater;
+      })
+    }))
   }
 
   add(theater: Theater) {

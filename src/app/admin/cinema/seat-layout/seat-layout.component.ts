@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SeatService } from '../../../services/seat.service';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Seat } from '../../../models/seat.model';
 import { Store } from '@ngxs/store';
+import { SeatService } from '@services/seat.service';
+import { Seat } from '@models/seat.model';
 
 @Component({
   selector: 'seat-layout',

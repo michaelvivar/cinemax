@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBaseComponent } from '../../../utils/base.component';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Theater } from '../../../models/theater.model';
-import { Cinema } from '../../../models/cinema.model';
-import { combineDateTime, computeEndTime } from '../../../utils/datetime-helper';
-import { ScheduleService } from '../../../services/schedule.service';
-import { Movie } from '../../../models/movie.model';
-import { SetTheater } from '../../../ngxs/actions/theater.actions';
-import { SetCinema } from '../../../ngxs/actions/cinema.actions';
+import { FormBaseComponent } from '@utils/base.component';
+import { ScheduleService } from '@services/schedule.service';
+import { Movie } from '@models/movie.model';
+import { Theater } from '@models/theater.model';
+import { Cinema } from '@models/cinema.model';
+import { computeEndTime, combineDateTime } from '@utils/datetime-helper';
+import { SetTheater } from '@stores/actions/theater.actions';
+import { SetCinema } from '@stores/actions/cinema.actions';
 
 @Component({
   selector: 'app-schedule-form',
@@ -110,10 +110,6 @@ export class ScheduleFormComponent extends FormBaseComponent implements OnInit {
     const date = this.form.get('date').value as Date;
 
     return combineDateTime(date, start);
-  }
-
-  cancel() {
-
   }
 
 }

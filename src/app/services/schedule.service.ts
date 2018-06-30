@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Schedule } from '../models/schedule.model';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Seat } from '../models/seat.model';
-import { letters } from '../helpers/seat-helper';
 import { map, switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import { Theater } from '../models/theater.model';
 import * as firebase from 'firebase/app';
-import { Movie } from '../models/movie.model';
-import { AUTOCOMPLETE_OPTION_HEIGHT } from '@angular/material';
 import { Store } from '@ngxs/store';
-import { SetTheater } from '../ngxs/actions/theater.actions';
-import { SetCinema } from '../ngxs/actions/cinema.actions';
-import { SetMovie } from '../ngxs/actions/movie.actions';
+import { Schedule } from '@models/schedule.model';
+import { SetTheater } from '@stores/actions/theater.actions';
+import { SetCinema } from '@stores/actions/cinema.actions';
+import { SetMovie } from '@stores/actions/movie.actions';
+import { Movie } from '@models/movie.model';
+import { Seat } from '@models/seat.model';
+import { letters } from '@utils/seat.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +61,25 @@ export class ScheduleService {
         })
       }))
     }))
+  }
+
+  getByCinema(cinemaId: any) {
+    return this.firestore.collection('schedules', q => q.where('cinema', '==', cinemaId)).snapshotChanges().pipe(map(docs => {
+      return docs.map(doc => {
+        const sched = doc.payload.doc.data() as Schedule;
+        sched.id = doc.payload.doc.id;
+        sched.date = new Date(sched.date['seconds'] * 1000);
+        return sched;
+      })
+    }))
+    .pipe(switchMap(values => combineLatest(values.map(value => {
+      return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
+        const movie = doc.payload.data() as Movie;
+        movie.id = doc.payload.id;
+        value.movie = movie;
+        return value;
+      }))
+    }))))
   }
 
   getSeats(id: any) {

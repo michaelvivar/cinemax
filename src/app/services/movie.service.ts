@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Movie } from '../models/movie.model';
 import { Store } from '@ngxs/store';
-import { SetMovie } from '../ngxs/actions/movie.actions';
 import { map } from 'rxjs/operators';
+import { Movie } from '@models/movie.model';
+import { SetMovie } from '@stores/actions/movie.actions';
 
 @Injectable({
   providedIn: 'root'

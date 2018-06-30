@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ScheduleService } from '../../../services/schedule.service';
-import { Seat } from '../../../models/seat.model';
 import { Observable } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material';
 import { Store, Select } from '@ngxs/store';
-import { AddSeat, RemoveSeat } from '../../../ngxs/actions/seat.actions';
-import { BaseComponent } from '../../../utils/base.component';
+import { BaseComponent } from '@utils/base.component';
+import { ScheduleService } from '@services/schedule.service';
+import { Seat } from '@models/seat.model';
+import { RemoveSeat, AddSeat } from '@stores/actions/seat.actions';
 
 @Component({
   selector: 'seat-layout',

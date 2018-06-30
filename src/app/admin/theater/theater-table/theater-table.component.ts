@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TableBaseComponent } from '../../../utils/base.component';
 import { MatTableDataSource } from '@angular/material';
-import { Theater } from '../../../models/theater.model';
+import { Theater } from '@models/theater.model';
+import { TableBaseComponent } from '@utils/base.component';
 
 @Component({
   selector: 'app-theater-table',

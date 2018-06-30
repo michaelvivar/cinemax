@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router/public_api';
-import { Schedule } from '../../models/schedule.model';
-import { ScheduleService } from '../schedule.service';
+import { ScheduleService } from '@services/schedule.service';
+import { Schedule } from '@models/schedule.model';
 
 @Injectable({
   providedIn: 'root'

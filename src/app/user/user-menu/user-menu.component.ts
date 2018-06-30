@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { UserService } from '../services/user.service';
-import { RemoveUser, SetUser } from '../../ngxs/actions/app.actions';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
-import { LoginFormComponent } from '../login-form/login-form.component';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { RemoveUser } from '@stores/actions/app.actions';
 
 @Component({
   selector: 'user-button',

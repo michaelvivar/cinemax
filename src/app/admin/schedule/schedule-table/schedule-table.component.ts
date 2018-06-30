@@ -1,16 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TableBaseComponent } from '../../../utils/base.component';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Theater } from '../../../models/theater.model';
-import { Cinema } from '../../../models/cinema.model';
-import { ScheduleService } from '../../../services/schedule.service';
 import { MatTableDataSource } from '@angular/material';
-import { RemoveTheater } from '../../../ngxs/actions/theater.actions';
-import { RemoveCinema } from '../../../ngxs/actions/cinema.actions';
-import { RemoveMovie } from '../../../ngxs/actions/movie.actions';
-import { Schedule } from '../../../models/schedule.model';
 import { ActivatedRoute } from '@angular/router';
+import { TableBaseComponent } from '@utils/base.component';
+import { ScheduleService } from '@services/schedule.service';
+import { Theater } from '@models/theater.model';
+import { Cinema } from '@models/cinema.model';
+import { Schedule } from '@models/schedule.model';
+import { RemoveTheater } from '@stores/actions/theater.actions';
+import { RemoveCinema } from '@stores/actions/cinema.actions';
+import { RemoveMovie } from '@stores/actions/movie.actions';
 
 @Component({
   selector: 'schedule-table',

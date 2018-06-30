@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { FormBaseComponent } from '../../../utils/base.component';
-import { CinemaService } from '../../../services/cinema.service';
-import { Cinema } from '../../../models/cinema.model';
-import { RemovePageConfirmExit } from '../../../ngxs/actions/app.actions';
-import { FormErrorStateMatcher } from '../../../utils/form-helper';
+import { FormBaseComponent } from '@utils/base.component';
+import { CinemaService } from '@services/cinema.service';
+import { Cinema } from '@models/cinema.model';
+import { RemovePageConfirmExit } from '@stores/actions/app.actions';
 
 @Component({
   selector: 'app-cinema-form',
@@ -19,8 +18,6 @@ export class CinemaFormComponent extends FormBaseComponent implements OnInit {
     private router: Router,
     private service: CinemaService
   ) { super() }
-
-  errorMatcher = new FormErrorStateMatcher();
   theaterId: any;
 
   ngOnInit() {
@@ -60,14 +57,4 @@ export class CinemaFormComponent extends FormBaseComponent implements OnInit {
       this.alert('Invalid form data!');
     }
   }
-
-  cancel() {
-    if (this.id) {
-      this.router.navigate(['/admin/cinema/', this.theaterId, this.id]);
-    }
-    else {
-      this.router.navigate(['/admin/theater/', this.theaterId]);
-    }
-  }
-
 }

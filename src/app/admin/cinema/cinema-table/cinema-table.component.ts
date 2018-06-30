@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TableBaseComponent } from '../../../utils/base.component';
-import { Cinema } from '../../../models/cinema.model';
 import { MatTableDataSource } from '@angular/material';
+import { TableBaseComponent } from '@utils/base.component';
+import { Cinema } from '@models/cinema.model';
 
 @Component({
   selector: 'cinema-table',

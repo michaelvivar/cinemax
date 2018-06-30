@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { Seat } from '../../../models/seat.model';
 import { Observable } from 'rxjs';
-import { BaseComponent } from '../../../utils/base.component';
-import { Schedule } from '../../../models/schedule.model';
-import { map } from 'rxjs/operators';
+import { BaseComponent } from '@utils/base.component';
+import { Schedule } from '@models/schedule.model';
+import { Seat } from '@models/seat.model';
 
 @Component({
   selector: 'payment-form',

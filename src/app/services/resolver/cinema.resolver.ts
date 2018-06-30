@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router/public_api';
-import { Cinema } from '../../models/cinema.model';
-import { CinemaService } from '../cinema.service';
+import { Cinema } from '@models/cinema.model';
+import { CinemaService } from '@services/cinema.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Cinema } from '../models/cinema.model';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import { Store } from '@ngxs/store';
-import { SetCinema } from '../ngxs/actions/cinema.actions';
+import { Cinema } from '@models/cinema.model';
+import { SetCinema } from '@stores/actions/cinema.actions';
 
 @Injectable({
   providedIn: 'root'

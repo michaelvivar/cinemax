@@ -1,17 +1,13 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Schedule } from '../../../models/schedule.model';
-import { BaseComponent } from '../../../utils/base.component';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Seat } from '../../../models/seat.model';
 import { MatStep, MatHorizontalStepper } from '@angular/material';
 import { tap } from 'rxjs/operators';
-import { RemoveTheater } from '../../../ngxs/actions/theater.actions';
-import { RemoveCinema } from '../../../ngxs/actions/cinema.actions';
-import { RemoveMovie } from '../../../ngxs/actions/movie.actions';
-import { ResetSeat } from '../../../ngxs/actions/seat.actions';
+import { BaseComponent } from '@utils/base.component';
+import { Seat } from '@models/seat.model';
+import { Schedule } from '@models/schedule.model';
 
 @Component({
   selector: 'app-buy-ticket',

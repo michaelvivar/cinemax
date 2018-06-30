@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { map } from 'rxjs/operators';
-import { ImageUpload } from '../models/image-upload.model';
+import { ImageUpload } from '@models/image-upload.model';
 
 
 @Injectable({

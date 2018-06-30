@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBaseComponent } from '../../../utils/base.component';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Movie } from '../../../models/movie.model';
-import { Theater } from '../../../models/theater.model';
-import { SetTheater } from '../../../ngxs/actions/theater.actions';
+import { FormBaseComponent } from '@utils/base.component';
+import { Movie } from '@models/movie.model';
+import { Theater } from '@models/theater.model';
+import { SetTheater } from '@stores/actions/theater.actions';
 
 @Component({
   selector: 'app-buy-movie',

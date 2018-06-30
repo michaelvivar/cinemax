@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBaseComponent } from '../../../utils/base.component';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Theater } from '../../../models/theater.model';
-import { TheaterService } from '../../../services/theater.service';
-import { RemovePageConfirmExit } from '../../../ngxs/actions/app.actions';
+import { TheaterService } from '@services/theater.service';
+import { FormBaseComponent } from '@utils/base.component';
+import { Theater } from '@models/theater.model';
+import { RemovePageConfirmExit } from '@stores/actions/app.actions';
 
 @Component({
   selector: 'app-theater-form',
@@ -51,14 +51,4 @@ export class TheaterFormComponent extends FormBaseComponent implements OnInit {
       this.alert('Invalid form data!');
     }
   }
-
-  cancel() {
-    if (this.id) {
-      this.router.navigate(['/admin/theater', this.id]);
-    }
-    else {
-      this.router.navigate(['/admin/theaters']);
-    }
-  }
-
 }

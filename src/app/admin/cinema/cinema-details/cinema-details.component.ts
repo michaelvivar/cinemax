@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Cinema } from '../../../models/cinema.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseComponent } from '../../../utils/base.component';
-import { CinemaService } from '../../../services/cinema.service';
-import { Theater } from '../../../models/theater.model';
+import { BaseComponent } from '@utils/base.component';
+import { CinemaService } from '@services/cinema.service';
+import { Cinema } from '@models/cinema.model';
+import { Theater } from '@models/theater.model';
 
 @Component({
   selector: 'app-cinema-details',

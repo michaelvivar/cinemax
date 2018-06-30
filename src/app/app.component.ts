@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { SetUser } from './ngxs/actions/app.actions';
 import { switchMap, map } from 'rxjs/operators';
-import { RemoveMovie } from './ngxs/actions/movie.actions';
-import { RemoveCinema } from './ngxs/actions/cinema.actions';
-import { RemoveTheater } from './ngxs/actions/theater.actions';
+import { RemoveMovie } from '@stores/actions/movie.actions';
+import { RemoveCinema } from '@stores/actions/cinema.actions';
+import { RemoveTheater } from '@stores/actions/theater.actions';
+import { SetUser } from '@stores/actions/app.actions';
 
 @Component({
   selector: 'app-root',

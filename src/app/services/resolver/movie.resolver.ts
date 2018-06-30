@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MovieService } from '../movie.service';
-import { Movie } from '../../models/movie.model';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router/public_api';
+import { Movie } from '@models/movie.model';
+import { MovieService } from '@services/movie.service';
 
 @Injectable({
   providedIn: 'root'

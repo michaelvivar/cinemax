@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { Seat } from '../models/seat.model';
 import { map } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
+import { Seat } from '@models/seat.model';
 
 @Injectable({
   providedIn: 'root'

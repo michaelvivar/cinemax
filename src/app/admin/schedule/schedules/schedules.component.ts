@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Cinema } from '../../../models/cinema.model';
-import { Theater } from '../../../models/theater.model';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { TableBaseComponent } from '../../../utils/base.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
-import { ScheduleService } from '../../../services/schedule.service';
-import { Schedule } from '../../../models/schedule.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TableBaseComponent } from '@utils/base.component';
+import { ScheduleService } from '@services/schedule.service';
+import { Theater } from '@models/theater.model';
+import { Cinema } from '@models/cinema.model';
+import { Schedule } from '@models/schedule.model';
 
 @Component({
   selector: 'app-schedules',

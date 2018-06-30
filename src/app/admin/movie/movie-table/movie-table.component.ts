@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TableBaseComponent } from '../../../utils/base.component';
 import { MatTableDataSource } from '@angular/material';
-import { Movie } from '../../../models/movie.model';
+import { TableBaseComponent } from '@utils/base.component';
+import { Movie } from '@models/movie.model';
 
 @Component({
   selector: 'app-movie-table',

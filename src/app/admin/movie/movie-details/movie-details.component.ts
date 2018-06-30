@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseComponent } from '../../../utils/base.component';
-import { Movie } from '../../../models/movie.model';
-import { ImageUpload } from '../../../models/image-upload.model';
-import { ImageService } from '../../../services/image.service';
-import { MovieService } from '../../../services/movie.service';
+import { BaseComponent } from '@utils/base.component';
+import { ImageService } from '@services/image.service';
+import { MovieService } from '@services/movie.service';
+import { Movie } from '@models/movie.model';
+import { ImageUpload } from '@models/image-upload.model';
 
 @Component({
   selector: 'app-movie-details',
