@@ -8,4 +8,5 @@ export interface Movie {
     actors: string[];
     director: string;
     status: boolean;
+    video: string;
 }
