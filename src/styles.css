@@ -112,3 +112,41 @@ button:focus {
 div.mat-horizontal-content-container {
     padding: 24px 10px !important;
 }
+
+.grid {
+    display: grid;
+}
+
+.grid.c2-auto {
+    grid-template-columns: auto auto;
+}
+
+.grid.c3-auto {
+    grid-template-columns: 33% 33% 34%;
+}
+
+.grid.c2-100-auto {
+    grid-template-columns: 100px auto;
+}
+
+.grid.grid-gap-20 {
+    grid-gap: 20px;
+}
+
+.grid.grid-gap-10 {
+    grid-gap: 10px;
+}
+
+.grid .mat-card .mat-divider {
+    position: unset;
+}
+
+.padding-0 .mat-dialog-container {
+    padding: 0 !important;
+}
+
+@media only screen and (max-width: 800px) {
+    .page-content {
+        width: 600px;
+    }
+}
