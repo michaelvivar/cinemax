@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieService } from '../../../services/movie.service';
-import { BaseComponent } from '../../../utils/base.component';
-import { Movie } from '../../../models/movie.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BaseComponent } from '@utils/base.component';
+import { MovieService } from '@services/movie.service';
+import { Movie } from '@models/movie.model';
 
 @Component({
   selector: 'now-showing',
