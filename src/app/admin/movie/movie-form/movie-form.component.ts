@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators, FormArray } from '@angular/forms';
-import { FormBaseComponent } from '../../../utils/base.component';
-import { Movie } from '../../../models/movie.model';
-import { MovieService } from '../../../services/movie.service';
-import { RemovePageConfirmExit } from '../../../ngxs/actions/app.actions';
+import { FormBaseComponent } from '@utils/base.component';
+import { MovieService } from '@services/movie.service';
+import { Movie } from '@models/movie.model';
+import { RemovePageConfirmExit } from '@stores/actions/app.actions';
 
 @Component({
   selector: 'app-movie-form',
@@ -25,8 +25,8 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
     this.form.addControl('date', new FormControl(null, Validators.required));
     this.form.addControl('grade', new FormControl(null, Validators.required));
     this.form.addControl('runtime', new FormControl(null, [Validators.required, Validators.min(30)]));
-    this.form.addControl('status', new FormControl());
-
+    this.form.addControl('status', new FormControl(true));
+    this.form.addControl('video', new FormControl(null, Validators.required));
     this.form.addControl('director', new FormControl(''));
     this.form.addControl('actors', this.formbuilder.array([]));
     this.addActor();
@@ -40,6 +40,7 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
       this.form.controls['runtime'].setValue(movie.runtime);
       this.form.controls['status'].setValue(movie.status);
       this.form.controls['director'].setValue(movie.director);
+      this.form.controls['video'].setValue(movie.video);
       if (movie.actors && movie.actors.length > 0) {
         this.actors.removeAt(0);
         movie.actors.forEach(o => this.addActor(o));
@@ -89,15 +90,6 @@ export class MovieFormComponent extends FormBaseComponent implements OnInit {
     }
     else {
       this.alert('Invalid form data!');
-    }
-  }
-
-  cancel() {
-    if (this.id) {
-      this.router.navigate(['/admin/movie', this.id]);
-    }
-    else {
-      this.router.navigate(['/admin/movies']);
     }
   }
 

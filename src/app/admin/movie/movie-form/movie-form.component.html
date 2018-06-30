@@ -53,6 +53,12 @@
               <input type="text" matInput [formControl]="form.controls['director']" placeholder="Director" />
             </mat-form-field>
           </div>
+          <div class="col-md-6">
+            <mat-form-field class="control-display-block">
+              <input type="text" matInput [formControl]="form.controls['video']" placeholder="Trailer Video" />
+              <mat-hint>Youtube URL</mat-hint>
+            </mat-form-field>
+          </div>
         </div>
         <div class="row" formArrayName="actors">
           <ng-container *ngFor="let actor of actors.controls; let i = index" [formGroupName]="i">
@@ -71,7 +77,7 @@
       </form>
 
       <p class="action-buttons">
-        <button mat-raised-button color="default" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="default" (click)="back()">Cancel</button>
         <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || form.untouched">Save</button>
       </p>
   </mat-card-content>
