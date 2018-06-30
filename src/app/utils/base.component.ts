@@ -1,6 +1,5 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Store } from "@ngxs/store";
-import { SetPageConfirmExit } from "../ngxs/actions/app.actions";
 import { Subscription } from "rxjs";
 import { MatDialog, MatTableDataSource, MatPaginator } from "@angular/material";
 import { ConfirmDialog } from "../components/confirm-dialog/confirm-dialog.component";
@@ -10,10 +9,10 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { DomSanitizer } from "@angular/platform-browser";
 import { ServiceLocator } from "./service-locator";
 import { safeHtml } from "./html-helper";
-import { RemoveMovie } from "../ngxs/actions/movie.actions";
-import { RemoveCinema } from "../ngxs/actions/cinema.actions";
-import { RemoveTheater } from "../ngxs/actions/theater.actions";
-import { ResetSeat } from "../ngxs/actions/seat.actions";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { Location } from "@angular/common";
+import { ResetSeat } from "@stores/actions/seat.actions";
+import { SetPageConfirmExit } from "@stores/actions/app.actions";
 
 export abstract class BaseComponent {
 
@@ -21,11 +20,14 @@ export abstract class BaseComponent {
         this.dialog = ServiceLocator.injector.get(MatDialog);
         this.domSanitizer = ServiceLocator.injector.get(DomSanitizer);
         this.store = ServiceLocator.injector.get(Store);
+        this.location = ServiceLocator.injector.get(Location);
     }
 
     protected store: Store;
     protected dialog: MatDialog;
     protected domSanitizer: DomSanitizer;
+    protected location: Location;
+
 
     protected title: string;
     private subscriptions: Subscription[] = [];
@@ -37,9 +39,6 @@ export abstract class BaseComponent {
     ngOnDestroy() {
         this.subscriptions.forEach(o => o.unsubscribe());
         console.log('Destroyed!', this.subscriptions.length);
-        // this.store.dispatch(new RemoveMovie());
-        // this.store.dispatch(new RemoveCinema());
-        // this.store.dispatch(new RemoveTheater());
         this.store.dispatch(new ResetSeat());
     }
 
@@ -71,12 +70,6 @@ export abstract class BaseComponent {
         }
     }
 
-    // safeHtml(content: string): SafeHtml {
-    //     if (this.domSanitizer) {
-    //         return this.domSanitizer.bypassSecurityTrustHtml(content);
-    //     }
-    // }
-
     sortBy = (...fields: string[]) => (a, b) => fields.map(o => {
         let dir = 1;
         if (o[0] === '-') { dir = -1; o=o.substring(1); }
@@ -84,7 +77,7 @@ export abstract class BaseComponent {
     }).reduce((p, n) => p ? p : n, 0);
 
     back() {
-
+        this.location.back();
     }
 }
 
@@ -95,7 +88,13 @@ export abstract class FormBaseComponent extends BaseComponent {
         this.store = ServiceLocator.injector.get(Store);
         this.formbuilder = ServiceLocator.injector.get(FormBuilder);
         this.form = this.formbuilder.group([]);
+
+        this.form.valueChanges.pipe(debounceTime(500)).pipe(distinctUntilChanged()).subscribe(values => {
+            this.validate(values);
+        })
     }
+
+    validate(values: any) {}
 
     protected store: Store;
     protected formbuilder: FormBuilder;
@@ -112,10 +111,6 @@ export abstract class FormBaseComponent extends BaseComponent {
     private dirty: boolean = false;
     protected form: FormGroup;
     protected id: any;
-
-    abstract save();
-    abstract cancel();
-
 }
 
 export abstract class TableBaseComponent extends BaseComponent {
