@@ -3,12 +3,12 @@ Online cinema ticketing system
 
 ## Angular 6
 ### Advance features:
-Lazy loading modules
-Preloading modules
-Route data resolver
+- Lazy loading modules
+- Preloading modules
+- Route data resolver
 
 ## RxJS
-### Operatos:
+### Operators:
 SwitchMap, Map, CombineLatest, Tap
 
 ## Cloud Firestore
