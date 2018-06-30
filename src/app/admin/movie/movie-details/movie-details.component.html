@@ -7,13 +7,14 @@
     <div class="col-sm-6 text-right">
         <div class="action-buttons">
             <button [routerLink]="['/admin/movie/edit', movie.id]" mat-raised-button color="primary">Edit</button>
-            <button (click)="openFileWindow()" mat-raised-button color="primary">Upload Image</button>
+            <button mat-raised-button color="primary" fileExplorer>
+                Upload Image
+                <input type="file" (change)="uploadImage($event)"  /> 
+            </button>
             <button (click)="delete()" mat-raised-button color="warn">Delete</button>
         </div>
     </div>
 </div>
-
-<input type="file" #btn style="visibility: hidden;" (change)="uploadImage($event)"  /> 
 
 <mat-card>
     <mat-card-content>
