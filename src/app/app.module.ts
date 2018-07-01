@@ -35,43 +35,42 @@ const materials = [MatProgressBarModule, MatButtonModule, MatDialogModule, MatTo
 
 import { routes, pages } from '@pages/routes';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    ...pages,
-    ConfirmDialog,
-    AlertDialog,
-    NavMenuComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AdminGuard] },
-      { path: 'buy', loadChildren: './modules/buy/buy.module#BuyModule' },
-      ...routes
-    ], { preloadingStrategy: ModulePreloadingStrategy }),
-    NgxsModule.forRoot([AppState, TheaterState, CinemaState, MovieState, SeatsState]),
-    NgxsStoragePluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    BrowserAnimationsModule,
-    ...materials,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-    AngularFireStorageModule,
-    UserModule,
-    MovieModule,
-    TheaterModule
-  ],
-  providers: [ConfirmExitGuard, AuthGuard, AdminGuard, ModulePreloadingStrategy],
-  bootstrap: [AppComponent],
-  entryComponents: [AlertDialog, ConfirmDialog]
+   declarations: [
+      AppComponent,
+      ...pages,
+      ConfirmDialog,
+      AlertDialog,
+      NavMenuComponent,
+   ],
+   imports: [
+      BrowserModule,
+      HttpClientModule,
+      RouterModule.forRoot([
+         { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AdminGuard] },
+         { path: 'buy', loadChildren: './modules/buy/buy.module#BuyModule' },
+         ...routes
+      ], { preloadingStrategy: ModulePreloadingStrategy }),
+      NgxsModule.forRoot([AppState, TheaterState, CinemaState, MovieState, SeatsState]),
+      NgxsStoragePluginModule.forRoot(),
+      NgxsLoggerPluginModule.forRoot(),
+      NgxsReduxDevtoolsPluginModule.forRoot(),
+      BrowserAnimationsModule,
+      ...materials,
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFirestoreModule,
+      AngularFireAuthModule,
+      AngularFireStorageModule,
+      UserModule,
+      MovieModule,
+      TheaterModule
+   ],
+   providers: [ConfirmExitGuard, AuthGuard, AdminGuard, ModulePreloadingStrategy],
+   bootstrap: [AppComponent],
+   entryComponents: [AlertDialog, ConfirmDialog]
 })
 export class AppModule {
-  constructor(private injector: Injector) {
-    ServiceLocator.injector = this.injector;
-  }
+   constructor(private injector: Injector) {
+      ServiceLocator.injector = this.injector;
+   }
 }

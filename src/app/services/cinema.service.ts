@@ -77,7 +77,7 @@ export class CinemaService {
 
   private addSeats(theaterId: any, cinemaId: any, row: number, column: number) {
     const seats = this.firestore.collection('theaters').doc(theaterId).collection('cinemas').doc(cinemaId).collection('seats');
-    for (let i = 1; i <= row; i++ ) {
+    for (let i = 1; i <= row; i++) {
       const batch = firebase.firestore().batch();
       for (let j = 1; j <= column; j++) {
         const ref = seats.doc(i + '-' + j).ref;

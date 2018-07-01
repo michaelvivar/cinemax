@@ -33,43 +33,53 @@ import { CinemaResolver } from '@services/resolver/cinema.resolver';
 import { Main } from '../shared/components/main/main.component';
 
 const materials = [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule,
-                  MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule,
-                MatDividerModule, MatCardModule, MatListModule, MatChipsModule, MatGridListModule,
-                MatProgressBarModule, MatProgressSpinnerModule, MatCheckboxModule];
+   MatNativeDateModule, MatSelectModule, MatIconModule, MatTableModule, MatPaginatorModule,
+   MatDividerModule, MatCardModule, MatListModule, MatChipsModule, MatGridListModule,
+   MatProgressBarModule, MatProgressSpinnerModule, MatCheckboxModule];
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, SharedModule,
-    RouterModule.forChild([
-      { path: '**', component: Main, children: [
-        { path: 'schedules', component: SchedulesComponent, resolve: {
-          theaters: TheatersWithCinemasResolver
-        }},
-        { path: 'schedule', children: [
-          { path: 'movie/:id', component: ScheduleFormComponent, resolve: { theaters: ActiveTheatersWithActiveCinemasResolver, movie: MovieResolver }, canActivate: [AuthGuard] }
-        ]},
-        { path: 'movies', component: MovieTableComponent, resolve: { movies: MoviesResolver}, canActivate: [AuthGuard] },
-        { path: 'movie', children: [
-          { path: 'add', component: MovieFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
-          { path: 'edit/:id', component: MovieFormComponent, canDeactivate: [ConfirmExitGuard], resolve: { movie: MovieResolver }, canActivate: [AuthGuard] },
-          { path: ':id', component: MovieDetailsComponent, resolve: { movie: MovieResolver }, canActivate: [AuthGuard] },
-        ]},
-        { path: 'cinema', children: [
-          { path: 'edit/:theater/:cinema', component: CinemaFormComponent, resolve: { cinema: CinemaResolver}, canDeactivate: [ConfirmExitGuard], canActivate: [AuthGuard] },
-          { path: 'add/:theater', component: CinemaFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
-          { path: ':theater/:cinema', component: CinemaDetailsComponent, resolve: { cinema: CinemaResolver, theater: TheaterResolver }, canActivate: [AuthGuard] }
-        ]},
-        { path: 'theaters', component: TheaterTableComponent, resolve: { theaters: TheatersResolver }, canActivate: [AuthGuard] },
-        { path: 'theater', children: [
-          { path: 'add', component: TheaterFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
-          { path: 'edit/:id', component: TheaterFormComponent, resolve: { theater: TheaterResolver }, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
-          { path: ':id', component: TheaterDetailsComponent, resolve: { theater: TheaterWithCinemasResolver}, canActivate: [AuthGuard] }
-        ]},
-        { path: '**', component: DashboardComponent, resolve: { movies: ActiveMoviesResolver }, canActivate: [AuthGuard] },
-      ]}
-    ]),
-    ...materials
-  ],
-  declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent, ScheduleTableComponent, SchedulesComponent],
+   imports: [
+      CommonModule, FormsModule, ReactiveFormsModule, SharedModule,
+      RouterModule.forChild([
+         //{ path: '**', component: Main, children: [
+         {
+            path: 'schedules', component: SchedulesComponent, resolve: {
+               theaters: TheatersWithCinemasResolver
+            }
+         },
+         {
+            path: 'schedule', children: [
+               { path: 'movie/:id', component: ScheduleFormComponent, resolve: { theaters: ActiveTheatersWithActiveCinemasResolver, movie: MovieResolver }, canActivate: [AuthGuard] }
+            ]
+         },
+         { path: 'movies', component: MovieTableComponent, resolve: { movies: MoviesResolver }, canActivate: [AuthGuard] },
+         {
+            path: 'movie', children: [
+               { path: 'add', component: MovieFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
+               { path: 'edit/:id', component: MovieFormComponent, canDeactivate: [ConfirmExitGuard], resolve: { movie: MovieResolver }, canActivate: [AuthGuard] },
+               { path: ':id', component: MovieDetailsComponent, resolve: { movie: MovieResolver }, canActivate: [AuthGuard] },
+            ]
+         },
+         {
+            path: 'cinema', children: [
+               { path: 'edit/:theater/:cinema', component: CinemaFormComponent, resolve: { cinema: CinemaResolver }, canDeactivate: [ConfirmExitGuard], canActivate: [AuthGuard] },
+               { path: 'add/:theater', component: CinemaFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
+               { path: ':theater/:cinema', component: CinemaDetailsComponent, resolve: { cinema: CinemaResolver, theater: TheaterResolver }, canActivate: [AuthGuard] }
+            ]
+         },
+         { path: 'theaters', component: TheaterTableComponent, resolve: { theaters: TheatersResolver }, canActivate: [AuthGuard] },
+         {
+            path: 'theater', children: [
+               { path: 'add', component: TheaterFormComponent, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
+               { path: 'edit/:id', component: TheaterFormComponent, resolve: { theater: TheaterResolver }, canActivate: [AuthGuard], canDeactivate: [ConfirmExitGuard] },
+               { path: ':id', component: TheaterDetailsComponent, resolve: { theater: TheaterWithCinemasResolver }, canActivate: [AuthGuard] }
+            ]
+         },
+         { path: '**', component: DashboardComponent, resolve: { movies: ActiveMoviesResolver }, canActivate: [AuthGuard] },
+         //]}
+      ]),
+      ...materials
+   ],
+   declarations: [MovieTableComponent, MovieDetailsComponent, MovieFormComponent, CinemaFormComponent, TheaterDetailsComponent, TheaterFormComponent, TheaterTableComponent, CinemaTableComponent, CinemaDetailsComponent, SeatLayoutComponent, DashboardComponent, ScheduleFormComponent, ScheduleTableComponent, SchedulesComponent],
 })
-export class AdminModule {}
+export class AdminModule { }

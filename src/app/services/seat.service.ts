@@ -23,7 +23,7 @@ export class SeatService {
     }));
   }
 
-  update(theaterId: any, cinemaId:any, seatId:any, status: boolean) {
+  update(theaterId: any, cinemaId: any, seatId: any, status: boolean) {
     return this.firestore.collection('theaters').doc(theaterId).collection('cinemas').doc(cinemaId).collection('seats').doc(seatId).update({ status });
   }
 }

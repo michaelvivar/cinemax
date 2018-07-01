@@ -11,15 +11,15 @@ import { LoginDialogDirective } from './directives/login-dialog.directive';
 import { SignupDialogDirective } from './directives/signup-dialog.directive';
 
 const materials = [MatFormFieldModule, MatInputModule, MatButtonModule, MatMenuModule, MatDividerModule,
-  MatIconModule];
+   MatIconModule];
 
 @NgModule({
-  imports: [
-    CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ...materials
-  ],
-  exports: [UserMenuComponent, LoginDialogDirective, SignupDialogDirective],
-  declarations: [LoginFormComponent, UserMenuComponent, SignupFormComponent, LoginDialogDirective, SignupDialogDirective],
-  providers: [UserService],
-  entryComponents: [LoginFormComponent, SignupFormComponent]
+   imports: [
+      CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ...materials
+   ],
+   exports: [UserMenuComponent, LoginDialogDirective, SignupDialogDirective],
+   declarations: [LoginFormComponent, UserMenuComponent, SignupFormComponent, LoginDialogDirective, SignupDialogDirective],
+   providers: [UserService],
+   entryComponents: [LoginFormComponent, SignupFormComponent]
 })
 export class UserModule { }

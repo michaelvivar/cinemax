@@ -7,7 +7,5 @@ export class ImageUpload {
     progress: Observable<number>;
     createdDate: Date;
 
-    constructor(public file: File) {
-
-    }
+    constructor(public file: File) { }
 }

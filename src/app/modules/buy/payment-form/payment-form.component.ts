@@ -1,30 +1,33 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { BaseComponent } from '@utils/base.component';
 import { Schedule } from '@models/schedule.model';
 import { Seat } from '@models/seat.model';
 
 @Component({
-  selector: 'payment-form',
-  templateUrl: './payment-form.component.html',
-  styles: []
+   selector: 'payment-form',
+   templateUrl: './payment-form.component.html',
+   styles: []
 })
 export class PaymentFormComponent extends BaseComponent implements OnInit {
 
-  constructor() { super() }
+   constructor() { super() }
 
-  @Input('data') schedule: Schedule;
-  @Output('submit') submit = new EventEmitter<boolean>();
-  @Select(store => store.seats.selected) seats$: Observable<Seat[]>;
-  @Select(store => store.app.user) user$: Observable<any>;
-  seats: Seat[] = [];
+   @Input('data') schedule: Schedule;
+   @Output('submit') submit = new EventEmitter<boolean>();
+   @Select(store => store.seats.selected) seats$: Observable<Seat[]>;
+   @Select(store => store.app.user) user$: Observable<any>;
+   seats: Seat[] = [];
 
-  ngOnInit() {
-    this.subscription = this.seats$.subscribe(data => this.seats = data);
-  }
+   ngOnInit() {
+      this.subscription = this.seats$.subscribe(data => this.seats = data);
+   }
 
-  pay() {
-    this.submit.emit(true);
-  }
+   submitted = false;
+
+   pay() {
+      this.submit.emit(true);
+      this.submitted = true;
+   }
 }
