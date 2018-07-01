@@ -63,6 +63,24 @@ export class ScheduleService {
          }))
    }
 
+   getSchedulesToday() {
+      return this.firestore.collection('schedules', q => q.where('date', '>', new Date())).snapshotChanges().pipe(map(docs => {
+         return docs.map(doc => {
+            const sched = doc.payload.doc.data() as Schedule;
+            sched.id = doc.payload.doc.id;
+            sched.date = new Date(sched.date['seconds'] * 1000);
+            return sched;
+         })
+      })).pipe(switchMap(values => combineLatest(values.map(value => {
+         return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
+            const movie = doc.payload.data() as Movie;
+            movie.id = doc.payload.id;
+            value.movie = movie;
+            return value;
+         }))
+      }))))
+   }
+
    getByCinema(cinemaId: any) {
       return this.firestore.collection('schedules', q => q.where('cinema', '==', cinemaId)).snapshotChanges().pipe(map(docs => {
          return docs.map(doc => {
@@ -71,15 +89,14 @@ export class ScheduleService {
             sched.date = new Date(sched.date['seconds'] * 1000);
             return sched;
          })
-      }))
-         .pipe(switchMap(values => combineLatest(values.map(value => {
-            return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
-               const movie = doc.payload.data() as Movie;
-               movie.id = doc.payload.id;
-               value.movie = movie;
-               return value;
-            }))
-         }))))
+      })).pipe(switchMap(values => combineLatest(values.map(value => {
+         return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
+            const movie = doc.payload.data() as Movie;
+            movie.id = doc.payload.id;
+            value.movie = movie;
+            return value;
+         }))
+      }))))
    }
 
    getSeats(id: any) {
@@ -109,14 +126,13 @@ export class ScheduleService {
             sched.id = doc.payload.doc.id;
             return sched;
          })
-      }))
-         .pipe(switchMap(values => combineLatest(values.map(value => {
-            return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
-               value.movie = doc.payload.data();
-               value.movie.id = doc.payload.id;
-               return value;
-            }))
-         }))))
+      })).pipe(switchMap(values => combineLatest(values.map(value => {
+         return this.firestore.collection('movies').doc(value.movie).snapshotChanges().pipe(map(doc => {
+            value.movie = doc.payload.data();
+            value.movie.id = doc.payload.id;
+            return value;
+         }))
+      }))))
    }
 
    add(schedule: Schedule) {

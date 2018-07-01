@@ -1,30 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ScheduleService } from '@services/schedule.service';
-import { Schedule } from '@models/schedule.model';
+import { Component, Input } from '@angular/core';
 import { Cinema } from '@models/cinema.model';
 import { BaseComponent } from '@utils/base.component';
 
 @Component({
-  selector: 'cinema-schedule',
-  templateUrl: './cinema-schedule.component.html',
-  styles: []
+   selector: 'cinema-schedule',
+   templateUrl: './cinema-schedule.component.html',
+   styles: []
 })
-export class CinemaScheduleComponent extends BaseComponent implements OnInit {
+export class CinemaScheduleComponent extends BaseComponent {
 
-  constructor(private scheduleService: ScheduleService) { super() }
+   constructor() { super() }
 
-  @Input('data') cinema: Cinema;
-  schedules: Schedule[] = [];
+   @Input('data') cinema: Cinema;
 
-  ngOnInit() {
-    this.subscription = this.scheduleService.getByCinema(this.cinema.id).subscribe(data => {
-      this.schedules = data.sort(this.sortBy('date'));
-    });
-  }
-
-  get sched() {
-    if (this.schedules && this.schedules.length > 0) {
-      return this.schedules[0];
-    }
-  }
+   get sched() {
+      if (this.cinema.schedules && this.cinema.schedules.length > 0) {
+         return this.cinema.schedules[0];
+      }
+   }
 }

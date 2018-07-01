@@ -9,47 +9,47 @@ import { RemoveTheater } from '@stores/actions/theater.actions';
 import { SetUser } from '@stores/actions/app.actions';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+   selector: 'app-root',
+   templateUrl: './app.component.html',
+   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
 
-  constructor(router: Router, store: Store, firebaseAuth: AngularFireAuth) {
-    
-    store.dispatch(new RemoveMovie());
-    store.dispatch(new RemoveCinema());
-    store.dispatch(new RemoveTheater());
+   constructor(router: Router, store: Store, firebaseAuth: AngularFireAuth) {
 
-    router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.progress = 5;
-      }
-      else if (event instanceof NavigationEnd) {
-        this.progress = 100;
-      }
-      else if (event instanceof NavigationCancel) {
-        this.progress = 100;
-      }
-      else if (event instanceof NavigationError) {
-        router.navigate(['error']);
-      }
-    })
+      //  store.dispatch(new RemoveMovie());
+      //  store.dispatch(new RemoveCinema());
+      //  store.dispatch(new RemoveTheater());
 
-    firebaseAuth.idToken.pipe(switchMap(token => {
-      return firebaseAuth.authState.pipe(map(user => {
-        if (user) {
-          return { token, email: user.email, id: user.uid, name: user.displayName };
-        }
-        return null;
+      router.events.subscribe((event: Event) => {
+         if (event instanceof NavigationStart) {
+            this.progress = 5;
+         }
+         else if (event instanceof NavigationEnd) {
+            this.progress = 100;
+         }
+         else if (event instanceof NavigationCancel) {
+            this.progress = 100;
+         }
+         else if (event instanceof NavigationError) {
+            router.navigate(['error']);
+         }
+      })
+
+      firebaseAuth.idToken.pipe(switchMap(token => {
+         return firebaseAuth.authState.pipe(map(user => {
+            if (user) {
+               return { token, email: user.email, id: user.uid, name: user.displayName };
+            }
+            return null;
+         }))
       }))
-    }))
-    .subscribe(data => {
-      if (data) {
-        store.dispatch(new SetUser(data));
-      }
-    })
-  }
+         .subscribe(data => {
+            if (data) {
+               store.dispatch(new SetUser(data));
+            }
+         })
+   }
 
-  progress: number = 0;
+   progress: number = 0;
 }

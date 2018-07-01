@@ -4,16 +4,16 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { ErrorPageComponent } from "./error-page/error-page.component";
 import { TheatersComponent } from "./theaters/theaters.component";
 import { TheaterComponent } from "./theater/theater.component";
-import { TheaterResolver } from "../services/resolver/theater.resolver";
+import { TheaterWithCinemasResolver } from "../services/resolver/theater.resolver";
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'theaters', component: TheatersComponent },
-    { path: 'theater/:id', component: TheaterComponent, resolve: { theater: TheaterResolver} },
-    { path: 'error', component: ErrorPageComponent },
-    { path: '**', component: NotFoundComponent }
+   { path: '', component: HomeComponent },
+   { path: 'theaters', component: TheatersComponent },
+   { path: 'theater/:id', component: TheaterComponent, resolve: { theater: TheaterWithCinemasResolver } },
+   { path: 'error', component: ErrorPageComponent },
+   { path: '**', component: NotFoundComponent }
 ];
 
 export const pages = [
-    HomeComponent, NotFoundComponent, ErrorPageComponent, TheaterComponent, TheatersComponent
+   HomeComponent, NotFoundComponent, ErrorPageComponent, TheaterComponent, TheatersComponent
 ];

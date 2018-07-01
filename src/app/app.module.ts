@@ -41,7 +41,7 @@ import { routes, pages } from '@pages/routes';
       ...pages,
       ConfirmDialog,
       AlertDialog,
-      NavMenuComponent,
+      NavMenuComponent
    ],
    imports: [
       BrowserModule,

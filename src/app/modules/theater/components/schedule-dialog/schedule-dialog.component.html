@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Select Schedule</h2>
+<mat-dialog-content>
+   <mat-nav-list>
+      <ng-container *ngFor="let sched of schedules">
+         <a mat-list-item mat-dialog-close (click)="dialogRef.close()" [routerLink]="['/buy/ticket', sched.id]">{{ sched.time.start }} - {{ sched.date | date:'fullDate' }}</a>
+         <mat-divider></mat-divider>
+      </ng-container>
+   </mat-nav-list>
+</mat-dialog-content>
